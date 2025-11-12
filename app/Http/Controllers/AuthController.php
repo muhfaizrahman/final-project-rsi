@@ -7,13 +7,12 @@ use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Auth\Events\Registered;
-use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Auth\Events\Verified;
 
 class AuthController extends Controller
 {
     public function showRegistrationForm() {
-        return view('register.index');
+        return view('pages.register.index');
     }
 
     public function register(Request $request) {
@@ -36,7 +35,7 @@ class AuthController extends Controller
     }
 
     public function showLoginForm() {
-        return view('login.index');
+        return view('pages.login.index');
     }
 
     public function login(Request $request) {
@@ -66,7 +65,7 @@ class AuthController extends Controller
     }
 
     public function showVerificationNotice() {
-        return view('email.verify.index');
+        return view('pages.email.verify.index');
     }
 
     public function verifyEmail(Request $request) {
@@ -76,7 +75,7 @@ class AuthController extends Controller
             return redirect('/login')->with('error', 'User tidak ditemukan.');
         }
 
-        if (! hash_equals((string) $request->route('hash'),
+        if (!hash_equals((string) $request->route('hash'),
             sha1($user->getEmailForVerification()))) {
             return redirect('/login')->with('error', 'Link verifikasi tidak valid.');
         }
