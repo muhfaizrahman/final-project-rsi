@@ -28,7 +28,7 @@ Route::middleware(['auth'])->group(function () {
     // Profile Routes
     Route::get('/profile', function () {
         return view('pages.profile.index');
-    })->name('profile');
+    })->name('profilePage');
     Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('editProfilePage');
     Route::put('/profile/update', [ProfileController::class, 'update'])->name('updateProfile');
 

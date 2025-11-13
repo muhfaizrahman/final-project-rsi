@@ -18,7 +18,7 @@ class ProfileController extends Controller
 
     public function update(UpdateProfileRequest $request) {
         $user = Auth::user();
-        $profile = $user->profile();
+        $profile = $user->profile;
 
         // Upload file 
         $data = $request->validated();
@@ -34,10 +34,10 @@ class ProfileController extends Controller
         // Transaksi database
         DB::transaction(function () use ($profile, $data, $request) {
             $profile->update([
-                'full_name' => $data['full_name'],
-                'city' => $data['city'],
-                'country' => $data['country'],
-                'biography' => $data['biography'],
+                'full_name' => $data['full_name'] ?? null,
+                'city' => $data['city'] ?? null,
+                'country' => $data['country'] ?? null,
+                'biography' => $data['biography'] ?? null,
                 'profile_photo_url' => $data['profile_photo_url'] ?? $profile->profile_photo_url,
                 'background_photo_url' => $data['background_photo_url'] ?? $profile->background_photo_url,
             ]);
@@ -57,6 +57,7 @@ class ProfileController extends Controller
                     $profile->educations()->create([
                         'institution_name' => $edu['institution_name'],
                         'degree' => $edu['degree'],
+                        'city'=> $edu['city'],
                         'field_of_study' => $edu['field_of_study'],
                         'start_date' => $edu['start_date'] ?? null,
                         'end_date' => $edu['end_date'] ?? null,
@@ -65,6 +66,6 @@ class ProfileController extends Controller
             }
         });
 
-        return redirect()->route('editProfilePage')->with('success', 'Profil berhasil diperbarui!');
+        return redirect()->route('profilePage')->with('success', 'Profil berhasil diperbarui!');
     }
 }

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cari Pekerjaan</title>
+    <title>Lunaris</title>
     <link rel="icon" href="{{ asset('assets/images/app-logo.png') }}">
     @vite('resources/css/app.css')
 </head>
