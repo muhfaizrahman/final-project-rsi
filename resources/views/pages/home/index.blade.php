@@ -62,25 +62,3 @@
 
     </body>
 </html>
-
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const avatarButton = document.getElementById('user-avatar-btn');
-        const dropdownMenu = document.getElementById('user-dropdown-menu');
-
-        // Fungsi untuk mengaktifkan/menonaktifkan dropdown
-        avatarButton.addEventListener('click', function() {
-            const isExpanded = this.getAttribute('aria-expanded') === 'true' || false;
-            this.setAttribute('aria-expanded', !isExpanded);
-            dropdownMenu.classList.toggle('hidden');
-        });
-
-        // Menutup dropdown jika user mengklik di luar area menu
-        document.addEventListener('click', function(event) {
-            if (!avatarButton.contains(event.target) && !dropdownMenu.contains(event.target)) {
-                dropdownMenu.classList.add('hidden');
-                avatarButton.setAttribute('aria-expanded', 'false');
-            }
-        });
-    });
-</script>

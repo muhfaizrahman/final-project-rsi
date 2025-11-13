@@ -35,6 +35,7 @@ class ProfileController extends Controller
         DB::transaction(function () use ($profile, $data, $request) {
             $profile->update([
                 'full_name' => $data['full_name'] ?? null,
+                'phone' => $data['phone'] ?? null,
                 'city' => $data['city'] ?? null,
                 'country' => $data['country'] ?? null,
                 'biography' => $data['biography'] ?? null,
@@ -61,6 +62,20 @@ class ProfileController extends Controller
                         'field_of_study' => $edu['field_of_study'],
                         'start_date' => $edu['start_date'] ?? null,
                         'end_date' => $edu['end_date'] ?? null,
+                    ]);
+                }
+            }
+
+            // Update experiences
+            $profile->experiences()->delete();
+            foreach ($request->experiences as $exp) {
+                if (!empty($exp['experience_title'])) {
+                    $profile->experiences()->create([
+                        'experience_title' => $exp['experience_title'],
+                        'organization_name' => $exp['organization_name'],
+                        'start_date' => $exp['start_date'],
+                        'end_date' => $exp['end_date'] ?? null,
+                        'description' => $exp['description'] ?? null,
                     ]);
                 }
             }

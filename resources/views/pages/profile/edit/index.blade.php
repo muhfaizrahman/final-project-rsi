@@ -48,6 +48,13 @@
                                class="w-full border-gray-300 rounded-lg shadow-sm focus:border-indigo-500 focus:ring-indigo-500 p-2.5">
                     </div>
                     
+                    <!-- Nomor Telepon -->
+                    <div>
+                        <label for="phone" class="block text-sm font-medium text-gray-700 mb-1">Nomor Telepon</label>
+                        <input type="text" id="phone" name="phone" value="{{ old('phone', $profile->phone) }}" 
+                               class="w-full border-gray-300 rounded-lg shadow-sm focus:border-indigo-500 focus:ring-indigo-500 p-2.5">
+                    </div>
+                    
                     <!-- Kota -->
                     <div>
                         <label for="city" class="block text-sm font-medium text-gray-700 mb-1">Kota</label>
@@ -56,7 +63,7 @@
                     </div>
                     
                     <!-- Negara -->
-                    <div class="md:col-span-2">
+                    <div>
                         <label for="country" class="block text-sm font-medium text-gray-700 mb-1">Negara</label>
                         <input type="text" id="country" name="country" value="{{ old('country', $profile->country) }}"
                                class="w-full border-gray-300 rounded-lg shadow-sm focus:border-indigo-500 focus:ring-indigo-500 p-2.5">
@@ -81,23 +88,23 @@
                         <label for="profile_photo_url" class="block text-sm font-medium text-gray-700 mb-1">Foto Profil</label>
                         <input type="file" id="profile_photo_url" name="profile_photo_url"
                                class="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100">
-                        @if($profile->profile_photo_path)
+                        @if($profile->profile_photo_url)
                             <p class="mt-2 text-sm text-gray-500 flex items-center">
                                 Foto saat ini: 
-                                <img src="{{ asset('storage/' . $profile->profile_photo_path) }}" class="ml-2 w-10 h-10 object-cover rounded-full border border-gray-300">
+                                <img src="{{ asset('storage/' . $profile->profile_photo_url) }}" class="ml-2 w-10 h-10 object-cover rounded-full border border-gray-300">
                             </p>
                         @endif
                     </div>
 
                     <!-- Background Profil -->
                     <div>
-                        <label for="background_photo" class="block text-sm font-medium text-gray-700 mb-1">Background Profil (Banner)</label>
-                        <input type="file" id="background_photo" name="background_photo_url"
+                        <label for="background_photo_url" class="block text-sm font-medium text-gray-700 mb-1">Background Profil (Banner)</label>
+                        <input type="file" id="background_photo_url" name="background_photo_url"
                                class="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100">
-                        @if($profile->background_photo_path)
+                        @if($profile->background_photo_url)
                             <p class="mt-2 text-sm text-gray-500 flex items-center">
                                 Background saat ini: 
-                                <img src="{{ asset('storage/' . $profile->background_photo_path) }}" class="ml-2 w-20 h-10 object-cover rounded-md border border-gray-300">
+                                <img src="{{ asset('storage/' . $profile->background_photo_url) }}" class="ml-2 w-20 h-10 object-cover rounded-md border border-gray-300">
                             </p>
                         @endif
                     </div>
@@ -139,10 +146,8 @@
                     @php $education_index = 0; @endphp
                     @forelse($profile->educations as $index => $education)
                         <div class="education-input p-4 border border-indigo-200 bg-indigo-50 rounded-lg space-y-3 relative">
-                            <!-- Input tersembunyi untuk menyimpan ID jika diperlukan untuk update -->
-                            {{-- <input type="hidden" name="educations[{{ $index }}][id]" value="{{ $education->id ?? '' }}"> --}}
                             
-                            <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                                 <input type="text" name="educations[{{ $index }}][institution_name]" placeholder="Institusi (mis: University of Brawijaya)" 
                                        value="{{ old('educations.'.$index.'.institution_name', $education->institution_name) }}"
                                        class="w-full border-gray-300 rounded-lg p-2.5 text-sm">
@@ -213,6 +218,77 @@
                 </button>
             </section>
 
+            <!-- Bagian 5: Experiences -->
+            <section class="bg-white p-6 rounded-xl shadow-lg border border-gray-200">
+                <h2 class="text-2xl font-semibold text-gray-800 mb-5 border-b pb-3">Pengalaman</h2>
+                <div id="experiences-container" class="space-y-6">
+                    @php $experience_index = 0; @endphp
+                    @forelse($profile->experiences as $index => $experience)
+                        <div class="experience-input p-4 border border-indigo-200 bg-indigo-50 rounded-lg space-y-3 relative">
+                            
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                                <input type="text" name="experiences[{{ $index }}][experience_title]" placeholder="Institusi (mis: University of Brawijaya)" 
+                                       value="{{ old('experiences.'.$index.'.experience_title', $experience->experience_title) }}"
+                                       class="w-full border-gray-300 rounded-lg p-2.5 text-sm">
+                                <input type="text" name="experiences[{{ $index }}][organization_name]" placeholder="Organisasi (mis: PT. XYZ)" 
+                                       value="{{ old('experiences.'.$index.'.organization_name', $experience->organization_name) }}"
+                                       class="w-full border-gray-300 rounded-lg p-2.5 text-sm">
+                            </div>
+
+                            <div class="grid grid-cols-2 gap-3">
+                                <div>
+                                    <label class="block text-xs font-medium text-gray-600 mb-1">Tanggal Mulai</label>
+                                    <input type="date" name="experiences[{{ $index }}][start_date]" 
+                                           value="{{ old('experiences.'.$index.'.start_date', $experience->start_date) }}"
+                                           class="w-full border-gray-300 rounded-lg p-2.5 text-sm">
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-medium text-gray-600 mb-1">Tanggal Selesai (atau Sekarang)</label>
+                                    <input type="date" name="experiences[{{ $index }}][end_date]" 
+                                           value="{{ old('experiences.'.$index.'.end_date', $experience->end_date) }}"
+                                           class="w-full border-gray-300 rounded-lg p-2.5 text-sm">
+                                </div>
+                            </div>
+                            
+                            <textarea name="experiences[{{ $index }}][description]" placeholder="Deskripsi atau pencapaian (Opsional)" rows="3"
+                                      class="w-full border-gray-300 rounded-lg p-2.5 text-sm">{{ old('experiences.'.$index.'.description', $experience->description) }}</textarea>
+
+                            <button type="button" onclick="removeExperienceInput(this)" 
+                                    class="absolute top-2 right-2 text-red-500 hover:text-red-700 p-1 rounded-full transition duration-150 ease-in-out">
+                                <!-- Icon X -->
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                            </button>
+                        </div>
+                        @php $experience_index++; @endphp
+                    @empty
+                        <div class="experience-input p-4 border border-indigo-200 bg-indigo-50 rounded-lg space-y-3 relative">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                                <input type="text" name="experiences[0][experience_title]" placeholder="Judul Pengalaman" class="w-full border-gray-300 rounded-lg p-2.5 text-sm">
+                                <input type="text" name="experiences[0][organization_name]" placeholder="Perusahaan atau Organisasi" class="w-full border-gray-300 rounded-lg p-2.5 text-sm">
+                            </div>
+                            <div class="grid grid-cols-2 gap-3">
+                                <div>
+                                    <label class="block text-xs font-medium text-gray-600 mb-1">Tanggal Mulai</label>
+                                    <input type="date" name="experiences[0][start_date]" class="w-full border-gray-300 rounded-lg p-2.5 text-sm">
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-medium text-gray-600 mb-1">Tanggal Selesai (atau Sekarang)</label>
+                                    <input type="date" name="experiences[0][end_date]" class="w-full border-gray-300 rounded-lg p-2.5 text-sm">
+                                </div>
+                            </div>
+                            <textarea name="experiences[0][description]" placeholder="Deskripsi atau pencapaian (Opsional)" rows="3" class="w-full border-gray-300 rounded-lg p-2.5 text-sm"></textarea>
+                            <button type="button" onclick="removeExperienceInput(this)" class="absolute top-2 right-2 text-red-500 hover:text-red-700 p-1 rounded-full transition duration-150 ease-in-out">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                            </button>
+                        </div>
+                    @endforelse
+                </div>
+                <button type="button" onclick="addExperienceInput()" 
+                        class="mt-4 inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition duration-150 ease-in-out">
+                    Tambah Pengalaman
+                </button>
+            </section>
+
             <!-- Tombol Simpan -->
             <div class="pt-4">
                 <button type="submit" 
@@ -223,7 +299,6 @@
         </form>
     </div>
 
-    <!-- Script untuk fungsi tambah/hapus input dinamis -->
     <script>
         // Mencari index tertinggi dari input edukasi yang sudah ada
         function getNextEducationIndex() {
@@ -252,7 +327,7 @@
             
             newDiv.innerHTML = `
                 <input type="text" name="skills[]" placeholder="Nama Skill Baru" 
-                       class="flex-grow border-gray-300 rounded-lg shadow-sm focus:border-indigo-500 focus:ring-indigo-500 p-2.5">
+                        class="flex-grow border-gray-300 rounded-lg shadow-sm focus:border-indigo-500 focus:ring-indigo-500 p-2.5">
                 <button type="button" onclick="this.parentNode.remove()" 
                         class="text-red-600 hover:text-red-800 text-sm font-medium py-2 px-3 transition duration-150 ease-in-out rounded-lg hover:bg-red-50">Hapus</button>
             `;
@@ -270,6 +345,8 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                     <input type="text" name="educations[${newIndex}][institution_name]" placeholder="Institusi" class="w-full border-gray-300 rounded-lg p-2.5 text-sm">
                     <input type="text" name="educations[${newIndex}][degree]" placeholder="Gelar" class="w-full border-gray-300 rounded-lg p-2.5 text-sm">
+                    <input type="text" name="educations[${newIndex}][field_of_study]" placeholder="Bidang Studi" class="w-full border-gray-300 rounded-lg p-2.5 text-sm">
+                    <input type="text" name="educations[${newIndex}][city]" placeholder="Kota Institusi" class="w-full border-gray-300 rounded-lg p-2.5 text-sm">
                 </div>
                 <div class="grid grid-cols-2 gap-3">
                     <div>
@@ -306,6 +383,77 @@
                     const originalName = field.getAttribute('name');
                     // Ganti index lama dengan index baru
                     const newName = originalName.replace(/educations\[\d+\]/g, `educations[${index}]`);
+                    field.setAttribute('name', newName);
+                });
+            });
+        }
+
+        // Mencari index tertinggi dari input experience yang sudah ada
+        function getNextExperienceIndex() {
+            const container = document.getElementById('experiences-container');
+            const inputs = container.querySelectorAll('.experience-input');
+            let maxIndex = -1;
+            
+            inputs.forEach(input => {
+                const nameAttribute = input.querySelector('input[name*="[experience_title]"]').getAttribute('name');
+                const match = nameAttribute.match(/\[(\d+)\]/);
+                if (match) {
+                    const index = parseInt(match[1]);
+                    if (index > maxIndex) {
+                        maxIndex = index;
+                    }
+                }
+            });
+            return maxIndex + 1;
+        }
+
+        // Logika untuk menambahkan input Experience baru
+        function addExperienceInput() {
+            const container = document.getElementById('experiences-container');
+            const newIndex = getNextExperienceIndex();
+            const newDiv = document.createElement('div');
+            newDiv.className = 'experience-input p-4 border border-indigo-200 bg-indigo-50 rounded-lg space-y-3 relative';
+            
+            newDiv.innerHTML = `
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                    <input type="text" name="experiences[${newIndex}][experience_title]" placeholder="Judul Pengalaman" class="w-full border-gray-300 rounded-lg p-2.5 text-sm">
+                    <input type="text" name="experiences[${newIndex}][organization_name]" placeholder="Organisasi" class="w-full border-gray-300 rounded-lg p-2.5 text-sm">
+                </div>
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-xs font-medium text-gray-600 mb-1">Tanggal Mulai</label>
+                        <input type="date" name="experiences[${newIndex}][start_date]" class="w-full border-gray-300 rounded-lg p-2.5 text-sm">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-medium text-gray-600 mb-1">Tanggal Selesai (atau Sekarang)</label>
+                        <input type="date" name="experiences[${newIndex}][end_date]" class="w-full border-gray-300 rounded-lg p-2.5 text-sm">
+                    </div>
+                </div>
+                <textarea name="experiences[${newIndex}][description]" placeholder="Deskripsi atau pencapaian (Opsional)" rows="3" class="w-full border-gray-300 rounded-lg p-2.5 text-sm"></textarea>
+                <button type="button" onclick="removeExperienceInput(this)" class="absolute top-2 right-2 text-red-500 hover:text-red-700 p-1 rounded-full transition duration-150 ease-in-out">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+            `;
+            container.appendChild(newDiv);
+        }
+
+        // Logika untuk menghapus input Experience
+        function removeExperienceInput(buttonElement) {
+            buttonElement.closest('.experience-input').remove();
+            // PENTING: Setelah menghapus, kita harus memastikan index name input berurutan lagi
+            reindexExperienceInputs();
+        }
+
+        // Fungsi untuk memastikan array experiences memiliki index berurutan setelah penghapusan
+        function reindexExperienceInputs() {
+            const container = document.getElementById('experiences-container');
+            const inputs = container.querySelectorAll('.experience-input');
+            
+            inputs.forEach((input, index) => {
+                input.querySelectorAll('input, textarea').forEach(field => {
+                    const originalName = field.getAttribute('name');
+                    // Ganti index lama dengan index baru
+                    const newName = originalName.replace(/experiences\[\d+\]/g, `experiences[${index}]`);
                     field.setAttribute('name', newName);
                 });
             });

@@ -27,6 +27,7 @@ class UpdateProfileRequest extends FormRequest
             'city' => ['nullable', 'string', 'max:100'],
             'country' => ['nullable', 'string', 'max:100'],
             'biography' => ['nullable', 'string'],
+            'phone' => ['nullable', 'string', 'max:20'],
             
             // Field File Upload
             'profile_photo_url' => ['nullable', 'image', 'max:2048'],
@@ -44,6 +45,14 @@ class UpdateProfileRequest extends FormRequest
             'educations.*.start_date' => ['required_with:educations', 'date'],
             'educations.*.end_date' => ['nullable', 'date', 'after_or_equal:educations.*.start_date'],
             'educations.*.description' => ['nullable', 'string'],
+
+            // Field Dinamis (Experiences) - Menggunakan array of objects
+            'experiences' => ['nullable', 'array'],
+            'experiences.*.experience_title' => ['required_with:experiences', 'string', 'max:255'],
+            'experiences.*.organization_name' => ['required_with:experiences', 'string', 'max:255'],
+            'experiences.*.start_date' => ['required_with:experiences', 'date'],
+            'experiences.*.end_date' => ['nullable', 'date', 'after_or_equal:experiences.*.start_date'],
+            'experiences.*.description' => ['nullable', 'string'],
         ];
     }
 }

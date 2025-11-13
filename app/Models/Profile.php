@@ -12,6 +12,7 @@ class Profile extends Model
     protected $fillable = [
         'user_id',
         'full_name',
+        'phone',
         'profile_photo_url',
         'background_photo_url',
         'city',
@@ -29,5 +30,9 @@ class Profile extends Model
 
     public function educations() {
         return $this->hasMany(Education::class);
+    }
+
+    public function experiences() {
+        return $this->hasMany(Experience::class);
     }
 }
