@@ -1,9 +1,9 @@
 <header>
-    <nav class="flex items-center p-4 bg-white shadow-md justify-between">
+    <nav class="flex items-center py-3 px-6 bg-white shadow-md justify-between">
         <a href="{{ route('homePage') }}">
-            <img src="{{ asset('assets/images/Lunaris.png') }}" alt="">
+            <img class="w-30" src="{{ asset('assets/images/Lunaris.png') }}" alt="">
         </a>
-        <div>
+        <div class="space-x-16">
             <a href="{{ route('homePage') }}">Home</a>
             <a href="{{ route('article') }}">Artikel</a>
             <a href="{{ route('event') }}">Event</a>
@@ -30,7 +30,7 @@
                     
                     <form method="POST" action="{{ route('logout') }}">
                         @csrf
-                        <button type="submit" class="w-full text-left block px-4 py-2 text-sm text-red-600 hover:bg-gray-100" role="menuitem" tabindex="-1">
+                        <button type="submit" class="w-full text-left block px-4 py-2 text-sm text-red-600 hover:bg-gray-100 cursor-pointer" role="menuitem" tabindex="-1">
                             Log Out
                         </button>
                     </form>

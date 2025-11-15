@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\ApplicationController;
+use App\Http\Controllers\JobController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
@@ -20,18 +22,17 @@ Route::get('/email/verify/{id}/{hash}', [AuthController::class, 'verifyEmail'])-
 Route::post('/email/verification-notification', [AuthController::class, 'resendVerificationEmail'])->middleware(['throttle:6,1'])->name('verification.send');
 
 Route::middleware(['auth'])->group(function () {
-    Route::get('/home', function () {
-        return view('pages.home.index');
-    })->middleware('verified')->name('homePage');
+    Route::get('/home', [JobController::class, 'index'])->middleware('verified')->name('homePage');
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
     // Profile Routes
-    Route::get('/profile', function () {
-        return view('pages.profile.index');
-    })->name('profilePage');
+    Route::get('/profile', [ProfileController::class, 'showProfilePage'])->name('profilePage');
     Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('editProfilePage');
     Route::put('/profile/update', [ProfileController::class, 'update'])->name('updateProfile');
 
+    // Apply Routes
+    Route::get('/apply/{job}', [ApplicationController::class, 'showApplicationForm'])->name('applicationFormPage');
+    Route::post('/apply/{job}', [ApplicationController::class, 'store'])->name('submitApplication');
 
     Route::get('/artikel', function () {
         return view('pages.article.index');

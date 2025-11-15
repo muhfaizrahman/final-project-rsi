@@ -1,64 +1,66 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lunaris</title>
-    <link rel="icon" href="{{ asset('assets/images/app-logo.png') }}">
-    @vite('resources/css/app.css')
-</head>
+@include('components.head')
 <body>
     @include('components.header')
+    <div class="max-w-6xl mx-auto py-8 px-4 sm:px-6 lg:px-8 space-y-8">
+        <h1 class="font-bold text-4xl mb-4">Cari pekerjaan apa?</h1>
+        <form action="" method="GET" class="border flex justify-between bg-white">
+            <input class="flex-grow px-4 py-2" type="text" name="keyword" placeholder="Masukkan kata kunci lowongan..." value="{{ $search ?? '' }}">
+            <button type="submit" class="py-2 px-4 bg-gray-200 cursor-pointer">Cari</button>
+        </form>
 
-    <h1 class="font-bold text-2xl mb-4">Cari pekerjaan apa?</h1>
-    <form action="" method="GET">
-        <input type="text" name="keyword" placeholder="Masukkan kata kunci lowongan..." value="{{ $search ?? '' }}">
-        <button type="submit">Cari</button>
-    </form>
+        <main>
+            {{-- List Lowongan --}}
+            <section>
+                @forelse($jobs as $job)
+                <div class="border p-4 mb-4 rounded-lg shadow-sm flex items-center justify-between bg-white">
+                    <div class="flex space-x-4 items-center">
+                        <div class="flex items-center justify-center size-24">
+                            <img class="object-cover" src="{{ asset('assets/images/default-experience.png') }}" alt="">
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-lg">{{ $job->title }}</h3>
+                            <p class="">{{ $job->company->name }}</p>
+                            <span class="text-sm text-gray-600">{{ $job->city }}, {{ $job->country }} ({{ $job->workMethod->name }})</span>
     
-    <div>
-        <button>Lokasi</button>
-        <button>Tipe Kerja</button>
-        <button>FnB</button>
-    </div>
-
-    <main style="display: flex;">
-        <section style="flex: 1;">
-            {{-- <h2>Daftar Lowongan ({{ count($jobs) }} ditemukan)</h2> --}}
-            
-            {{-- @forelse ($jobs as $job)
-                <div style="border: 1px solid #ccc; margin-bottom: 10px; padding: 10px;">
-                    <a href="">
-                        <p><strong>{{ $job->title }}</strong></p>
-                        <p>{{ $job->company->name }}</p>
-                        <p>{{ $job->location }} ({{ $job->work_type }})</p>
-                    </a>
+                        </div>
+                    </div>
+                    <i class="bi bi-bookmark text-3xl text-[#7E794B]"></i>
                 </div>
-            @empty
-                <p>Tidak ada pekerjaan yang ditemukan.</p>
-            @endforelse --}}
-        </section>
+                @empty
+                    <p>Tidak ada pekerjaan yang ditemukan.</p>
+                @endforelse
 
-        <aside style="flex: 2; border-left: 1px solid #000; padding-left: 20px;">
-            {{-- @if ($selectedJob)
-                <h2>{{ $selectedJob->title }}</h2>
-                <p><strong>{{ $selectedJob->company->name }}</strong></p>
-                <p>{{ $selectedJob->location }} ({{ $selectedJob->work_type }})</p>
-                <hr>
+            </section>
+
+            {{-- Detail Lowongan --}}
+            <aside class="border p-4 rounded-lg shadow-sm space-y-4 bg-white">
+                <div class="flex items-center justify-center size-24">
+                    <img class="object-cover" src="{{ asset('assets/images/default-experience.png') }}" alt="">
+                </div>
+                <div>
+                    <h3 class="font-bold text-lg">{{ $job->title }}</h3>
+                    <p class="">{{ $job->company->name }}</p>
+                    <span class="text-sm text-gray-600">{{ $job->city }}, {{ $job->country }} ({{ $job->workMethod->name }})</span>
+                </div>
                 
-                <h3>Job Description:</h3>
-                <pre>{{ $selectedJob->description }}</pre>
+                <div>
+                    <h3>Job Description:</h3>
+                    <p>{{ $job->description }}</p>
+                </div>
 
-                <h3>Requirements:</h3>
-                <pre>{{ $selectedJob->requirements }}</pre>
+                <div>
+                    <h3>Requirements:</h3>
+                    <p>{{ $job->requirements }}</p>
+                </div>
 
-                <button>Apply</button>
-                <button>Chat</button>
-            @else
-                <p>Pilih pekerjaan dari daftar di sebelah kiri untuk melihat detail.</p>
-            @endif --}}
-        </aside>
-    </main>
-
-    </body>
+                <div class="flex font-bold space-x-4">
+                    <a href="{{ route('applicationFormPage', $job->id) }}" class="px-8 py-2 bg-[#7E794B] hover:bg-[#6e6a3f] text-white rounded-lg cursor-pointer">Apply</a>
+                    <button class="px-8 py-2 border border-[#DADADA] hover:bg-[#DADADA] text-[#7E794B] rounded-lg cursor-pointer">Chat</button>
+                </div>
+            </aside>
+        </main>
+    </div>
+</body>
 </html>
