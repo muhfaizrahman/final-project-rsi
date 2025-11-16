@@ -9,7 +9,7 @@
             <a href="{{ route('event') }}">Event</a>
         </div>
         <div class="flex items-center space-x-8">
-            <a href="{{ route('chat') }}">
+            <a href="{{ route('chatsPage') }}">
                 <i class="bi bi-send text-[#7E794B] text-2xl"></i>
             </a>
             <a href="{{ route('showBookmarkPage') }}">

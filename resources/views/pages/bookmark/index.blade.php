@@ -6,7 +6,6 @@
     <div class="max-w-6xl mx-auto py-8 px-4 sm:px-6 lg:px-8 space-y-8">
         <h1 class="font-bold text-4xl mb-4">Lowongan Tersimpan</h1>
         
-
         <main class="grid grid-cols-1 lg:grid-cols-3 gap-8">
             
             {{-- List Lowongan --}}
@@ -15,7 +14,6 @@
 
                     @php
                         $linkParams = ['job_id' => $job->id];
-                        
                         $isSelected = (isset($selectedJobId) && $selectedJobId == $job->id);
                         $borderClass = $isSelected ? 'border-[#7E794B] ring-2 ring-[#7E794B]' : 'border-gray-200 hover:border-[#7E794B]';
                     @endphp
@@ -73,7 +71,7 @@
 
                     <div class="flex font-bold space-x-4 pt-4">
                         <a href="{{ route('applicationFormPage', $selectedJob->id) }}" class="flex-1 text-center px-4 py-3 bg-[#7E794B] hover:bg-[#6e6a3f] text-white rounded-lg transition duration-150">Apply Now</a>
-                        <button class="flex-1 px-4 py-3 border border-gray-300 hover:bg-gray-100 text-[#7E794B] rounded-lg transition duration-150 cursor-pointer">Chat</button>
+                        <a href="{{ route('createOrShowChat', $selectedJob) }}" class="flex-1 text-center px-4 py-3 border border-gray-300 hover:bg-gray-100 text-[#7E794B] rounded-lg transition duration-150 cursor-pointer">Chat</a>
                     </div>
                 </div>
                 @else

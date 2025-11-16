@@ -12,6 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('threads', function (Blueprint $table) {
+            $table->id();
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->foreignId('job_id')->constrained('jobs')->onDelete('cascade'); 
             $table->foreignId('company_id')->constrained('companies')->onDelete('cascade'); 
