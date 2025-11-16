@@ -27,7 +27,7 @@ class ApplicationController extends Controller
             'cv_url' => $data['cv_url'],
         ]);
 
-        return redirect()->back()->with('success', 'Lamaran berhasil dikirim. Terima kasih telah melamar!');
+        return redirect()->route('homePage')->with('success', 'Lamaran berhasil dikirim. Terima kasih telah melamar!');
     }
 
     public function showApplicationForm(Job $job) {

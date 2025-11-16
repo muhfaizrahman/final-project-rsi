@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ApplicationController;
+use App\Http\Controllers\BookmarkController;
 use App\Http\Controllers\JobController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
@@ -11,9 +12,7 @@ Route::middleware(['guest'])->group(function () {
     Route::post('/register', [AuthController::class, 'register'])->name('register');
     Route::get('/login', [AuthController::class, 'showLoginForm'])->name('loginPage');
     Route::post('/login', [AuthController::class, 'login'])->name('login');
-    Route::get('/', function () {
-        return view('landing');
-    });
+    Route::get('/', [AuthController::class, 'showLoginForm']);
 
 });
 
@@ -34,15 +33,16 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/apply/{job}', [ApplicationController::class, 'showApplicationForm'])->name('applicationFormPage');
     Route::post('/apply/{job}', [ApplicationController::class, 'store'])->name('submitApplication');
 
+    // Bookmark Routes
+    Route::get('/bookmark', [BookmarkController::class, 'index'])->name('showBookmarkPage');
+    Route::post('/job/{job}/toggle', [BookmarkController::class, 'toggle'])->name('toggleBookmark');
+
     Route::get('/artikel', function () {
         return view('pages.article.index');
     })->name('article');
     Route::get('/event', function () {
         return view('pages.event.index');
     })->name('event');
-    Route::get('/bookmark', function () {
-        return view('pages.bookmark.index');
-    })->name('bookmark');
     Route::get('/chat', function () {
         return view('pages.chat.index');
     })->name('chat');

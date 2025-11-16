@@ -1,16 +1,15 @@
 <!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Profile</title>
-    <link rel="icon" href="{{ asset('assets/images/app-logo.png') }}">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
-    @vite('resources/css/app.css')
-</head>
-<body class="bg-gray-100 ">
+<html lang="en">
+@include('components.head')
+<body>
     @include('components.header')
     <div class="max-w-6xl mx-auto py-8 px-4 sm:px-6 lg:px-8 space-y-8">
+
+        @if(session('success'))
+            <div class="p-4 bg-green-100 text-green-800 rounded-lg">
+                {{ session('success') }}
+            </div>
+        @endif
         
         {{-- Background Photo --}}
         <div class="rounded-lg shadow-xl h-48 sm:h-64 relative overflow-hidden">
@@ -31,8 +30,8 @@
         <div class="px-4 sm:px-0">
             <div class="flex items-center mb-8 space-x-3">
                 <div class="flex flex-col">
-                    <h1 class="text-4xl font-bold text-gray-900">{{ auth()->user()->profile->full_name }}</h1>
-                    <p class="text-lg text-gray-600">{{ auth()->user()->profile->city }}, {{ auth()->user()->profile->country }}</p>
+                    <h1 class="text-4xl font-bold text-black">{{ auth()->user()->profile->full_name }}</h1>
+                    <p class="text-lg text-black">{{ auth()->user()->profile->city }}, {{ auth()->user()->profile->country }}</p>
                 </div>
                 <a class="text-white bg-[#7E794B] hover:bg-[#6B6840] px-5 py-2 rounded-full" href="{{ route('editProfilePage') }}">Edit</a>
             </div>

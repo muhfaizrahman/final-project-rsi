@@ -22,4 +22,12 @@ class Job extends Model
     public function applications() {
         return $this->hasMany(Application::class);
     }
+
+    public function industry() {
+        return $this->belongsTo(Industry::class);
+    }
+
+    public function bookmarkedByUsers() {
+        return $this->belongsToMany(User::class, 'job_bookmarks', 'job_id', 'user_id')->withTimestamps();
+    }
 }

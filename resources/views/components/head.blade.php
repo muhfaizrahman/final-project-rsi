@@ -7,7 +7,7 @@
     <link rel="icon" href="{{ asset('assets/images/app-logo.png') }}">
 
     {{-- Bootstrap Icons --}}
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
     @vite('resources/css/app.css')
     <style>
         body {
