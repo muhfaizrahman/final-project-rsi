@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ApplicationController;
 use App\Http\Controllers\BookmarkController;
+use App\Http\Controllers\ChatController;
 use App\Http\Controllers\JobController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
@@ -37,14 +38,16 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/bookmark', [BookmarkController::class, 'index'])->name('showBookmarkPage');
     Route::post('/job/{job}/toggle', [BookmarkController::class, 'toggle'])->name('toggleBookmark');
 
+    // Chat Routes
+    Route::get('/chats', [ChatController::class, 'index'])->name('chatsPage');
+    Route::get('/chats/{thread}', [ChatController::class, 'show'])->name('showDetailChat'); 
+    Route::get('/chats/job/{job}', [ChatController::class, 'createOrShow'])->name('createOrShowChat');
+    Route::post('/chats/{thread}/send', [ChatController::class, 'sendMessage'])->name('sendChat');
+
     Route::get('/artikel', function () {
         return view('pages.article.index');
     })->name('article');
     Route::get('/event', function () {
         return view('pages.event.index');
     })->name('event');
-    Route::get('/chat', function () {
-        return view('pages.chat.index');
-    })->name('chat');
-
 });
