@@ -1,21 +1,25 @@
 <header>
-    <nav class="flex items-center p-4 bg-white shadow-md justify-between">
+    <nav class="flex items-center py-3 px-6 bg-white shadow-md justify-between">
         <a href="{{ route('homePage') }}">
-            <img src="{{ asset('assets/images/Lunaris.png') }}" alt="">
+            <img class="w-30" src="{{ asset('assets/images/Lunaris.png') }}" alt="">
         </a>
-        <div>
+        <div class="space-x-16 text-[#7E794B]">
             <a href="{{ route('homePage') }}">Home</a>
             <a href="{{ route('article') }}">Artikel</a>
             <a href="{{ route('event') }}">Event</a>
         </div>
-        <div class="flex items-center space-x-4">
-            <a href="{{ route('chat') }}">Chat</a>
-            <a href="{{ route('bookmark') }}">Bookmark</a>
+        <div class="flex items-center space-x-8">
+            <a href="{{ route('chat') }}">
+                <i class="bi bi-send text-[#7E794B] text-2xl"></i>
+            </a>
+            <a href="{{ route('showBookmarkPage') }}">
+                <i class="bi bi-bookmark text-[#7E794B] text-2xl"></i>
+            </a>
             <div class="relative">
                 <button id="user-avatar-btn" class="focus:outline-none rounded-full" aria-expanded="false" aria-haspopup="true">
                     <img src="{{ auth()->user()->profile->profile_photo_url 
                     ? asset('storage/' . auth()->user()->profile->profile_photo_url) 
-                    : asset('assets/images/default-profile-picture.jpg') }}" alt="User Avatar" class="h-10 w-10 rounded-full object-cover border-2 border-gray-300 hover:border-blue-500 transition duration-150 cursor-pointer">
+                    : asset('assets/images/default-profile-picture.jpg') }}" alt="User Avatar" class="h-10 w-10 rounded-full object-cover border-2 border-gray-300 hover:border-[#7E794B] transition duration-150 cursor-pointer">
                 </button>
 
                 <div id="user-dropdown-menu" 
@@ -30,7 +34,7 @@
                     
                     <form method="POST" action="{{ route('logout') }}">
                         @csrf
-                        <button type="submit" class="w-full text-left block px-4 py-2 text-sm text-red-600 hover:bg-gray-100" role="menuitem" tabindex="-1">
+                        <button type="submit" class="w-full text-left block px-4 py-2 text-sm text-red-600 hover:bg-gray-100 cursor-pointer" role="menuitem" tabindex="-1">
                             Log Out
                         </button>
                     </form>

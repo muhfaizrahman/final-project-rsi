@@ -16,6 +16,10 @@ class ProfileController extends Controller
         return view('pages.profile.edit.index', ['profile' => $profile]);
     }
 
+    public function showProfilePage() {
+        return view('pages.profile.index');
+    }
+
     public function update(UpdateProfileRequest $request) {
         $user = Auth::user();
         $profile = $user->profile;

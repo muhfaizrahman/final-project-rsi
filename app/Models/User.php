@@ -49,4 +49,12 @@ class User extends Authenticatable implements MustVerifyEmail
     public function profile() {
         return $this->hasOne(Profile::class);
     }
+
+    public function bookmarks() {
+        return $this->belongsToMany(Job::class, 'job_bookmarks', 'user_id', 'job_id')->withTimestamps();
+    }
+
+    public function isBookmarked($job): bool {
+        return $this->bookmarks()->where('job_id', is_object($job) ? $job->id : $job)->exists();
+    }
 }
