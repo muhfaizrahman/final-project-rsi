@@ -6,7 +6,7 @@
         <div class="space-x-16 text-[#7E794B]">
             <a href="{{ route('homePage') }}">Home</a>
             <a href="{{ route('article') }}">Artikel</a>
-            <a href="{{ route('event') }}">Event</a>
+            <a href="{{ route('eventPage') }}">Event</a>
         </div>
         <div class="flex items-center space-x-8">
             <a href="{{ route('chatsPage') }}">
