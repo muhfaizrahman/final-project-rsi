@@ -3,6 +3,7 @@
 use App\Http\Controllers\ApplicationController;
 use App\Http\Controllers\BookmarkController;
 use App\Http\Controllers\ChatController;
+use App\Http\Controllers\EventController;
 use App\Http\Controllers\JobController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
@@ -44,10 +45,14 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/chats/job/{job}', [ChatController::class, 'createOrShow'])->name('createOrShowChat');
     Route::post('/chats/{thread}/send', [ChatController::class, 'sendMessage'])->name('sendChat');
 
+    // Event Routes
+    Route::get('/event', [EventController::class, 'index'])->name('eventPage');
+    Route::get('/{event}/detail', [EventController::class, 'indexDetail'])->name('eventDetailPage');
+    Route::get('/{event}/register', [EventController::class, 'createRegistration'])->name('eventFormPage');
+    Route::post('/{event}/register', [EventController::class, 'storeRegistration'])->name('storeEventRegistration');
+
+    // Article Routes
     Route::get('/artikel', function () {
         return view('pages.article.index');
     })->name('article');
-    Route::get('/event', function () {
-        return view('pages.event.index');
-    })->name('event');
 });

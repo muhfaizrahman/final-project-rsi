@@ -147,7 +147,7 @@
 
                     <div class="flex font-bold space-x-4 pt-4">
                         <a href="{{ route('applicationFormPage', $selectedJob->id) }}" class="flex-1 text-center px-4 py-3 bg-[#7E794B] hover:bg-[#6e6a3f] text-white rounded-lg transition duration-150">Apply Now</a>
-                        <a href="{{ route('createOrShowChat', $selectedJob) }}" class="flex-1 text-center px-4 py-3 border border-gray-300 hover:bg-gray-100 text-[#7E794B] rounded-lg transition duration-150 cursor-pointer">Chat</a>
+                        <a href="{{ route('createOrShowChat', $selectedJob->id) }}" class="flex-1 text-center px-4 py-3 border border-gray-300 hover:bg-gray-100 text-[#7E794B] rounded-lg transition duration-150 cursor-pointer">Chat</a>
                     </div>
                 </div>
                 @else
