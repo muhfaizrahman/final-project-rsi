@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\UpdateProfileRequest;
 use Auth;
 use DB;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 
 class ProfileController extends Controller
@@ -49,7 +50,8 @@ class ProfileController extends Controller
 
             // Update skills
             $profile->skills()->delete();
-            foreach ($request->skills as $skillName) {
+            $skillsToProcess = collect($request->skills)->filter();
+            foreach ($skillsToProcess as $skillName) {
                 if (!empty($skillName)) {
                     $profile->skills()->create(['name' => $skillName]);
                 }
@@ -57,7 +59,8 @@ class ProfileController extends Controller
 
             // Update educations
             $profile->educations()->delete();
-            foreach ($request->educations as $edu) {
+            $educationsToProcess = collect($request->educations)->filter();
+            foreach ($educationsToProcess as $edu) {
                 if (!empty($edu['institution_name'])) {
                     $profile->educations()->create([
                         'institution_name' => $edu['institution_name'],
@@ -72,7 +75,8 @@ class ProfileController extends Controller
 
             // Update experiences
             $profile->experiences()->delete();
-            foreach ($request->experiences as $exp) {
+            $experiencesToProcess = collect($request->experiences)->filter();
+            foreach ($experiencesToProcess as $exp) {
                 if (!empty($exp['experience_title'])) {
                     $profile->experiences()->create([
                         'experience_title' => $exp['experience_title'],
