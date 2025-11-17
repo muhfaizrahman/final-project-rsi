@@ -44,6 +44,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/chats/{thread}', [ChatController::class, 'show'])->name('showDetailChat'); 
     Route::get('/chats/job/{job}', [ChatController::class, 'createOrShow'])->name('createOrShowChat');
     Route::post('/chats/{thread}/send', [ChatController::class, 'sendMessage'])->name('sendChat');
+    Route::put('/messages/{message}', [ChatController::class, 'update'])->name('updateMessage');
+    Route::delete('/messages/{message}', [ChatController::class, 'delete'])->name('deleteMessage');
 
     // Event Routes
     Route::get('/event', [EventController::class, 'index'])->name('eventPage');

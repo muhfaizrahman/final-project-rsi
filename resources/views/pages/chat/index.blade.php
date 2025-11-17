@@ -19,7 +19,7 @@
                     <a href="{{ route('showDetailChat', $threadItem) }}" class="block p-4 rounded-xl border border-gray-200 transition duration-150 {{ $bgColor }}">
                         <div class="flex items-center space-x-4">
                             <div class="flex-shrink-0 size-12 bg-gray-300 rounded-full flex items-center justify-center">
-                                <i class="bi bi-person text-xl text-gray-600"></i>
+                                <img src="{{ asset('assets/images/default-experience.png') }}" alt="Logo perusahaan">
                             </div>
                             <div>
                                 <p class="font-semibold text-lg">{{ $threadItem->company->name ?? 'Perusahaan Tidak Dikenal' }}</p>
@@ -38,7 +38,7 @@
                 @if($selectedThread)
                     <div class="p-4 border-b border-gray-200 flex items-center space-x-4">
                         <div class="flex-shrink-0 size-10 bg-gray-300 rounded-full flex items-center justify-center">
-                            <i class="bi bi-person text-lg text-gray-600"></i>
+                            <img src="{{ asset('assets/images/default-experience.png') }}" alt="Logo perusahaan">
                         </div>
                         <h2 class="font-bold text-xl">{{ $selectedThread->company->name ?? 'Perusahaan Tidak Dikenal' }}</h2>
                     </div>
@@ -46,7 +46,6 @@
                     <div class="flex-1 p-4 space-y-4 overflow-y-auto custom-scrollbar">
                         @forelse($messages as $message)
                             @php
-                                // Tentukan apakah pesan dikirim oleh Pelamar atau Perusahaan
                                 $isApplicant = $message->sender_type === 'applicant';
                                 $alignment = $isApplicant ? 'justify-end' : 'justify-start';
                                 $bubbleClasses = $isApplicant 
@@ -54,19 +53,55 @@
                                     : 'bg-gray-100 text-gray-800 rounded-tl-none';
                             @endphp
                             
-                            <div class="flex {{ $alignment }}">
-                                <div class="max-w-xs sm:max-w-md lg:max-w-lg p-3 rounded-xl shadow {{ $bubbleClasses }}">
-                                    <p class="text-sm">{{ $message->content }}</p>
+                            <div class="flex {{ $alignment }} group items-center">
+                                
+                                {{-- Edit & Delete message --}}
+                                @if($isApplicant)
+                                    <div class="right-full top-0 mr-2 opacity-0 group-hover:opacity-100 transition duration-150">
+                                        <button onclick="toggleEditForm({{ $message->id }})" title="Edit Pesan" class="text-gray-500 hover:text-[#6e6a3f] p-1 rounded-full text-sm cursor-pointer">
+                                            <i class="bi bi-pencil"></i>
+                                        </button>
+                                        <form action="{{ route('deleteMessage', $message) }}" method="POST" class="inline" onsubmit="return confirm('Yakin ingin menghapus pesan ini?');">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" title="Hapus Pesan" class="text-gray-500 hover:text-red-500 p-1 rounded-full text-sm cursor-pointer">
+                                                <i class="bi bi-trash"></i>
+                                            </button>
+                                        </form>
+                                    </div>
+                                @endif
+                                
+                                {{-- Message bubble --}}
+                                <div id="message-bubble-{{ $message->id }}" class="max-w-xs sm:max-w-md lg:max-w-lg p-3 rounded-xl shadow {{ $bubbleClasses }} relative">
+                                    <p id="message-content-{{ $message->id }}" class="text-sm">{{ $message->content }}</p>
                                     <span class="text-xs opacity-75 block text-right mt-1">
                                         {{ $message->created_at->format('H:i') }}
+                                        @if($message->created_at->timestamp !== $message->updated_at->timestamp)
+                                            <span class="ml-1">(edited)</span>
+                                        @endif
                                     </span>
                                 </div>
+                                
                             </div>
+                            
+                            {{-- Edit Form --}}
+                            @if($isApplicant)
+                            <div id="edit-form-{{ $message->id }}" class="hidden flex {{ $alignment }} mt-2">
+                                <form action="{{ route('deleteMessage', $message) }}" method="POST" class="w-full max-w-lg">
+                                    @csrf
+                                    @method('PUT')
+                                    <div class="flex items-center space-x-2 bg-gray-50 p-3 rounded-lg border border-[#7E794B]">
+                                        <textarea name="content" rows="2" class="flex-1 p-2 border border-gray-300 rounded-lg text-gray-800 focus:ring-[#7E794B] focus:border-[#7E794B] resize-none" required>{{ $message->content }}</textarea>
+                                        <div>
+                                            <button type="submit" class="bg-[#7E794B] hover:bg-[#6e6a3f] text-white p-2 rounded-md text-sm block mb-1 w-full cursor-pointer">Simpan</button>
+                                            <button type="button" onclick="toggleEditForm({{ $message->id }})" class="bg-gray-300 hover:bg-gray-400 text-gray-800 p-2 rounded-md text-sm block w-full cursor-pointer">Batal</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            @endif
                         @empty
-                            <div class="text-center text-gray-500 py-10">
-                                Mulai percakapan dengan mengirim pesan pertama.
-                            </div>
-                        @endforelse
+                            @endforelse
                     </div>
                     
                     <form action="{{ route('sendChat', $selectedThread) }}" method="POST" class="p-4 border-t border-gray-200">
@@ -91,5 +126,21 @@
             
         </main>
     </div>
+
+<script>
+    function toggleEditForm(messageId) {
+        const bubble = document.getElementById(`message-bubble-${messageId}`);
+        const editForm = document.getElementById(`edit-form-${messageId}`);
+        
+        if (bubble && editForm) {
+            bubble.classList.toggle('hidden');
+            editForm.classList.toggle('hidden');
+
+            if (!editForm.classList.contains('hidden')) {
+                editForm.querySelector('textarea').focus();
+            }
+        }
+    }
+</script>
 </body>
 </html>

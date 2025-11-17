@@ -84,4 +84,26 @@ class ChatController extends Controller
 
         return back();
     }
+    
+    public function update(Request $request, Message $message) {
+        if ($message->sender_id !== Auth::id() || $message->sender_type !== 'applicant') {
+            return back()->with('error', 'Anda tidak diizinkan mengedit pesan ini.');
+        }
+
+        $request->validate(['content' => 'required|string|max:1000']);
+        
+        $message->update(['content' => $request->input('content')]);
+
+        return back()->with('success', 'Pesan berhasil diedit.');
+    }
+
+    public function delete(Message $message) {
+        if ($message->sender_id !== Auth::id() || $message->sender_type !== 'applicant') {
+            return back()->with('error', 'Anda tidak diizinkan menghapus pesan ini.');
+        }
+
+        $message->delete();
+
+        return back()->with('success', 'Pesan berhasil dihapus.');
+    }
 }
