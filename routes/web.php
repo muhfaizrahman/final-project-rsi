@@ -1,8 +1,10 @@
 <?php
 
 use App\Http\Controllers\ApplicationController;
+use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\BookmarkController;
 use App\Http\Controllers\ChatController;
+use App\Http\Controllers\CommentController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\JobController;
 use App\Http\Controllers\ProfileController;
@@ -54,7 +56,11 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/{event}/register', [EventController::class, 'storeRegistration'])->name('storeEventRegistration');
 
     // Article Routes
-    Route::get('/artikel', function () {
-        return view('pages.article.index');
-    })->name('article');
+    Route::get('/artikel', [ArticleController::class, 'index'])->name('articlePage');
+    Route::get('/{article:slug}', [ArticleController::class, 'show'])->name('showArticle');
+
+    // Comment Routes
+    Route::post('/{article:slug}/comments', [CommentController::class, 'store'])->name('storeComment');
+    Route::put('/comments/{comment}', [CommentController::class, 'update'])->name('updateComment');
+    Route::delete('/comments/{comment}', [CommentController::class, 'delete'])->name('deleteComment');
 });

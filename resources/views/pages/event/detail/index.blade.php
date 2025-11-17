@@ -73,7 +73,7 @@
                     </div>
 
                     <div class="bg-white p-6 rounded-xl shadow-md">
-                        <h3 class="text-xl font-bold mb-3 text-black">Hours</h3>
+                        <h3 class="text-xl font-bold mb-3 text-black">Time</h3>
                         <p class="text-gray-700">{{ $event->event_datetime->format('H:i a, d M Y') }}</p>
                     </div>
 

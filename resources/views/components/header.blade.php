@@ -5,7 +5,7 @@
         </a>
         <div class="space-x-16 text-[#7E794B]">
             <a href="{{ route('homePage') }}">Home</a>
-            <a href="{{ route('article') }}">Artikel</a>
+            <a href="{{ route('articlePage') }}">Artikel</a>
             <a href="{{ route('eventPage') }}">Event</a>
         </div>
         <div class="flex items-center space-x-8">
@@ -17,7 +17,7 @@
             </a>
             <div class="relative">
                 <button id="user-avatar-btn" class="focus:outline-none rounded-full" aria-expanded="false" aria-haspopup="true">
-                    <img src="{{ auth()->user()->profile->profile_photo_url 
+                    <img src="{{ auth()->user()->profile?->profile_photo_url 
                     ? asset('storage/' . auth()->user()->profile->profile_photo_url) 
                     : asset('assets/images/default-profile-picture.jpg') }}" alt="User Avatar" class="h-10 w-10 rounded-full object-cover border-2 border-gray-300 hover:border-[#7E794B] transition duration-150 cursor-pointer">
                 </button>
