@@ -26,6 +26,17 @@ class EventController extends Controller
         return view('pages.event.index', compact('events', 'search'));
     }
 
+    public function indexDetail(Event $event) {
+        $isRegistered = Auth::check() ? $event->isRegisteredBy(Auth::user()) : false;
+
+        $relatedEvents = Event::where('id', '!=', $event->id)
+                          ->inRandomOrder()
+                          ->limit(3)
+                          ->get();
+
+        return view('pages.event.detail.index', compact('event', 'isRegistered', 'relatedEvents'));
+    }
+
     // Menampilkan Form Registrasi
     public function createRegistration(Event $event)
     {

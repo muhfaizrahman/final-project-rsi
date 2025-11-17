@@ -4,6 +4,22 @@
 <body>
     @include('components.header')
     <div class="container mx-auto px-4 py-12 max-w-lg">
+        
+        @if(session('success'))
+            <div class="p-4 bg-green-100 text-green-800 rounded-lg mb-4">
+                {{ session('success') }}
+            </div>
+        @endif
+        @if($errors->any())
+            <div class="p-4 bg-red-100 text-red-800 rounded-lg mb-4">
+                <ul class="list-disc pl-5">
+                    @foreach($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+
         <h1 class="text-3xl font-bold mb-6 text-center">Registrasi Event</h1>
         
         <div class="bg-white p-6 rounded-lg shadow-lg mb-8 border-l-4 border-[#7E794B]">
@@ -23,7 +39,7 @@
             <div>
                 <label for="full_name" class="block text-sm font-medium text-gray-700">Nama Lengkap</label>
                 <input type="text" id="full_name" name="full_name" 
-                    value="{{ old('full_name', $user->name ?? '') }}" 
+                    value="{{ old('full_name') }}" 
                     class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:ring-[#7E794B] focus:border-[#7E794B]" required>
                 @error('full_name')
                     <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
@@ -51,7 +67,7 @@
             </div>
             
             <button type="submit" 
-                    class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-lg font-medium text-white bg-[#7E794B] hover:bg-[#6e6a3f] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#7E794B] transition duration-150">
+                    class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-lg font-medium text-white bg-[#7E794B] hover:bg-[#6e6a3f] cursor-pointer focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#7E794B] transition duration-150">
                 Daftar Sekarang
             </button>
             

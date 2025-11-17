@@ -47,6 +47,7 @@ Route::middleware(['auth'])->group(function () {
 
     // Event Routes
     Route::get('/event', [EventController::class, 'index'])->name('eventPage');
+    Route::get('/{event}/detail', [EventController::class, 'indexDetail'])->name('eventDetailPage');
     Route::get('/{event}/register', [EventController::class, 'createRegistration'])->name('eventFormPage');
     Route::post('/{event}/register', [EventController::class, 'storeRegistration'])->name('storeEventRegistration');
 
