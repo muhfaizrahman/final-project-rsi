@@ -15,7 +15,7 @@ class Event extends Model
         'event_datetime' => 'datetime',
     ];
 
-    public function companyProfile() {
+    public function company() {
         return $this->belongsTo(ProfileCompany::class);
     }
     

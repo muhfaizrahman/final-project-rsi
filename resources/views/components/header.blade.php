@@ -9,9 +9,6 @@
             <a href="{{ route('eventPage') }}">Event</a>
         </div>
         <div class="flex items-center space-x-8">
-            <a href="{{ route('chatsPage') }}">
-                <i class="bi bi-send text-[#7E794B] text-2xl"></i>
-            </a>
             <a href="{{ route('showBookmarkPage') }}">
                 <i class="bi bi-bookmark text-[#7E794B] text-2xl"></i>
             </a>
@@ -26,7 +23,7 @@
                     class="hidden absolute right-0 mt-3 w-48 bg-white rounded-lg shadow-xl py-1 z-50 border border-gray-100"
                     role="menu" aria-orientation="vertical" aria-labelledby="user-avatar-btn" tabindex="-1">
                     
-                    <a href="{{ route('profilePage') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem" tabindex="-1">
+                    <a href="{{ route('profilePage', auth()->user()) }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem" tabindex="-1">
                         Profil
                     </a>
                     

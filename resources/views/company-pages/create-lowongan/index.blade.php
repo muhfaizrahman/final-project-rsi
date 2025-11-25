@@ -20,13 +20,13 @@
             <div class="flex items-center mb-8 pb-4 border-b border-gray-200">
                 <div class="size-16 rounded-full flex items-center justify-center mr-3 overflow-hidden">
                     <!-- Gunakan logo perusahaan yang sudah ada -->
-                    <img src="{{ auth()->user()->companyProfile?->profile_photo_url 
-                        ? asset('storage/' . auth()->user()->companyProfile->profile_photo_url) 
+                    <img src="{{ auth()->user()->company?->profile_photo_url 
+                        ? asset('storage/' . auth()->user()->company->profile_photo_url) 
                         : asset('assets/images/default-profile-picture.jpg') }}" 
                         alt="Company Logo" class="w-full h-full object-cover">
                 </div>
                 <!-- Nama perusahaan diambil dari user yang sedang login -->
-                <h2 class="text-xl font-bold text-gray-800">{{ auth()->user()->companyProfile?->name ?? 'Default Company' }}</h2>
+                <h2 class="text-xl font-bold text-gray-800">{{ auth()->user()->company?->name ?? 'Default Company' }}</h2>
             </div>
     
             <!-- Action diarahkan ke route jobs.store -->
@@ -87,12 +87,6 @@
                     </select>
                 </div>
                 
-                <!-- Lokasi (city dan country diambil otomatis dari companyProfile) -->
-                <div class="text-sm text-gray-600 p-3 bg-gray-50 rounded-md border border-gray-200">
-                    Lokasi Lowongan (City dan Country) akan diisi otomatis dari data profil perusahaan Anda: 
-                    <span class="font-semibold">{{ auth()->user()->companyProfile->city ?? 'Belum Diatur' }}, {{ auth()->user()->companyProfile->country ?? 'Belum Diatur' }}</span>
-                </div>
-
                 <!-- Deskripsi Lowongan -->
                 <div>
                     <label for="description" class="block text-sm font-medium text-gray-700 mb-1">Deskripsi lowongan</label>

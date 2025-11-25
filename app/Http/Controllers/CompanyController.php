@@ -13,8 +13,10 @@ class CompanyController extends Controller
 {
 
     public function index() {
-        return view('company-pages.lowongan.index', [
+        $jobs = Job::where('company_id', Auth::user()->company->id)->get();
 
+        return view('company-pages.lowongan.index', [
+            'jobs' => $jobs,
         ]);
     }
 
@@ -24,6 +26,23 @@ class CompanyController extends Controller
         $industries = Industry::all();
 
         return view('company-pages.create-lowongan.index', compact('workMethods','workTypes','industries'));
+    }
+
+    public function indexApplicants(Job $job) {
+        // Pastikan job tersebut milik perusahaan user yang sedang login
+        if ($job->company_id !== Auth::user()->company->id) {
+            return redirect()
+                ->route('companyDashboardPage')
+                ->with('error', 'Anda tidak memiliki akses ke halaman ini.');
+        }
+
+        // Muat aplikasi beserta data pelamar
+        $applications = $job->applications()->with('user')->get();
+
+        return view('company-pages.pelamar.index', [
+            'job' => $job,
+            'applications' => $applications,
+        ]);
     }
 
     public function createJob(Request $request) {
@@ -40,9 +59,9 @@ class CompanyController extends Controller
         $validatedData = $request->validate($rules);
         
         // Dapatkan profil perusahaan dari user yang sedang login
-        $companyProfile = Auth::user()->companyProfile;
+        $company = Auth::user()->company;
 
-        if (!$companyProfile) {
+        if (!$company) {
             // Handle jika user tidak memiliki profil perusahaan
             return redirect()
                 ->back()
@@ -53,11 +72,11 @@ class CompanyController extends Controller
         // 2. LENGKAPI DATA SEBELUM DISIMPAN
         
         // company_id: ID perusahaan user yang sedang login
-        $validatedData['company_id'] = Auth::user()->id; 
+        $validatedData['company_id'] = Auth::user()->company->id; 
         
-        // city & country: Diambil dari companyProfile (Asumsi relasi CompanyProfile ada kolom city dan country)
-        $validatedData['city'] = $companyProfile->city ?? 'N/A'; 
-        $validatedData['country'] = $companyProfile->country ?? 'N/A';
+        // city & country: Diambil dari company (Asumsi relasi company ada kolom city dan country)
+        $validatedData['city'] = $company->city ?? 'Belum Diatur'; 
+        $validatedData['country'] = $company->country ?? 'Belum Diatur';
         
         // is_active: Default ke true saat pembuatan (sesuai permintaan)
         $validatedData['is_active'] = true;
@@ -68,12 +87,10 @@ class CompanyController extends Controller
 
             // 4. KEMBALIKAN RESPONS (REDIRECT)
             return redirect()
-                ->route('companyDashboardPage') // Ganti dengan route yang sesuai (misalnya: jobs.detail, jobs.index)
+                ->route('companyDashboardPage') 
                 ->with('success', 'Lowongan pekerjaan "' . $job->title . '" berhasil dibuat!');
 
         } catch (\Exception $e) {
-            // Jika terjadi kesalahan saat penyimpanan
-            // Anda bisa log $e->getMessage() untuk debugging
             return redirect()
                 ->back()
                 ->withInput() 

@@ -16,7 +16,7 @@ class Thread extends Model
         return $this->belongsTo(Job::class);
     }
 
-    public function companyProfile() {
+    public function company() {
         return $this->belongsTo(ProfileCompany::class);
     }
 

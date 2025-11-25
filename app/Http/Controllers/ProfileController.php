@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\UpdateProfileRequest;
+use App\Models\User;
 use Auth;
 use DB;
 use Illuminate\Database\Eloquent\Collection;
@@ -12,17 +13,23 @@ class ProfileController extends Controller
 {
     public function edit() {
         $user = Auth::user();
-        $profile = $user->profile()->with(['skills', 'educations'])->firstOrCreate(['user_id' => $user->id]);
+        $profile = $user->profile()->with(['skills', 'educations', 'experiences'])->first();
 
         return view('pages.profile.edit.index', ['profile' => $profile]);
     }
 
     public function showProfilePage() {
-        return view('pages.profile.index');
+        return view('pages.profile.index', [
+            'profileUser' => Auth::user(),
+        ]);
     }
 
-    public function update(UpdateProfileRequest $request) {
+    public function update(UpdateProfileRequest $request, User $user) {
         $user = Auth::user();
+        if (Auth::id() !== $user->id) {
+            abort(403, 'Akses ditolak.');
+        }
+
         $profile = $user->profile;
 
         // Upload file 
@@ -89,6 +96,6 @@ class ProfileController extends Controller
             }
         });
 
-        return redirect()->route('profilePage')->with('success', 'Profil berhasil diperbarui!');
+        return redirect()->route('profilePage', $user)->with('success', 'Profil berhasil diperbarui!');
     }
 }

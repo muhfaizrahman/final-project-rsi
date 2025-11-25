@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Company;
+use App\Models\Profile;
 use App\Models\ProfileCompany;
 use DB;
 use Illuminate\Http\Request;
@@ -40,6 +41,11 @@ class AuthController extends Controller
                     'company_name' => 'Belum Diatur',
                     'city' => 'Belum Diatur',
                     'country' => 'Belum Diatur',
+                ]);
+            } else if ($request->role === 'pelamar') {
+                Profile::create([
+                    'user_id' => $user->id,
+                    'full_name' => 'Default Name',
                 ]);
             }
     

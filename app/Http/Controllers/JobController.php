@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Industry;
 use App\Models\Job;
+use App\Models\ProfileCompany;
 use App\Models\WorkMethod;
 use App\Models\WorkType;
 use Illuminate\Http\Request; 
@@ -23,7 +24,7 @@ class JobController extends Controller
         $filterIndustryId = $request->input('industry_id');
         
         // Ambil daftar opsi untuk dropdown filter (hanya kota unik dari jobs yang ada)
-        $availableCities = Job::select('city')->distinct()->pluck('city');
+        $availableCities = ProfileCompany::select('city')->distinct()->pluck('city');
         $workTypes = WorkType::all();
         $workMethods = WorkMethod::all();
         $industries = Industry::all();
@@ -36,6 +37,8 @@ class JobController extends Controller
             $jobsQuery->where('title', 'like', '%' . $keyword . '%');
         }
 
+        $jobsQuery->join('profile_companies as pc', 'jobs.company_id', '=', 'pc.id');
+
         // Terapkan filter kategori
         if ($filterWorkTypeId) {
             $jobsQuery->where('work_type_id', $filterWorkTypeId);
@@ -44,13 +47,13 @@ class JobController extends Controller
             $jobsQuery->where('work_method_id', $filterWorkMethodId);
         }
         if ($filterCity) {
-            $jobsQuery->where('city', $filterCity); // Filter tepat
+            $jobsQuery->where('pc.city', $filterCity); 
         }
         if ($filterIndustryId) {
-            $jobsQuery->where('industry_id', $filterIndustryId); // Asumsi FK di tabel jobs
+            $jobsQuery->where('industry_id', $filterIndustryId);
         }
         
-        $jobs = $jobsQuery->get();
+        $jobs = $jobsQuery->select('jobs.*')->get();
         
         // --- 3. Logika Detail Pekerjaan ---
         $selectedJob = null;

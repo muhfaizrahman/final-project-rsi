@@ -33,7 +33,9 @@
                     <h1 class="text-4xl font-bold text-black">{{ auth()->user()->profile?->full_name }}</h1>
                     <p class="text-lg text-black">{{ auth()->user()->profile?->city }}, {{ auth()->user()->profile?->country }}</p>
                 </div>
-                <a class="text-white bg-[#7E794B] hover:bg-[#6B6840] px-5 py-2 rounded-full" href="{{ route('editProfilePage') }}">Edit</a>
+                @if (auth()->id() == $profileUser->id)
+                    <a class="text-white bg-[#7E794B] hover:bg-[#6B6840] px-5 py-2 rounded-full" href="{{ route('editProfilePage', $profileUser) }}">Edit</a>
+                @endif
             </div>
             
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">

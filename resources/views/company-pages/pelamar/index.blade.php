@@ -3,68 +3,52 @@
 @include('components.head')
 <body class="min-h-screen p-4 sm:p-8">
 
-    <header class="bg-white p-4 shadow-md flex justify-between items-center rounded-lg max-w-5xl mx-auto mb-8">
-        <div class="flex items-center space-x-6">
-            <span class="text-xl font-bold text-gray-800">Lunaris</span>
-            <nav class="hidden sm:flex space-x-4">
-                <a href="#" class="text-gray-600 hover:text-green-600 font-medium">Lowongan</a>
-                <a href="#" class="text-gray-600 hover:text-green-600 font-medium">Artikel</a>
-                <a href="#" class="text-gray-600 hover:text-green-600 font-medium">Event</a>
-            </nav>
-        </div>
-        <div class="flex space-x-3 text-gray-700">
-            <button class="w-8 h-8 flex items-center justify-center rounded-full bg-gray-200 hover:bg-gray-300">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
-                </svg>
-            </button>
-            <button class="w-8 h-8 flex items-center justify-center rounded-full bg-yellow-600 hover:bg-yellow-700 text-white">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                </svg>
-            </button>
-        </div>
-    </header>
-
     <main class="max-w-3xl mx-auto p-4">
 
         <div class="mb-4">
-            <a href="{{ route('companyHomePage') }}" class="text-sm text-gray-600 hover:text-gray-800">← Kembali ke Lowongan</a>
+            <a href="{{ route('companyDashboardPage') }}" class="text-sm text-gray-600 hover:text-gray-800">← Kembali ke Lowongan</a>
         </div>
 
-        <h1 class="text-xl font-bold text-gray-800 mb-8">Pendaftar Lowongan</h1>
+        <h1 class="text-3xl font-bold text-black mb-8">Pendaftar Lowongan</h1>
         
         <div class="flex items-start space-x-4 mb-8">
-            <div class="w-16 h-16 flex-shrink-0">
-                @if($company->logo_url)
-                    <img src="{{ asset($company->logo_url) }}" alt="{{ $company->name }}" class="w-full h-full object-cover rounded-lg">
-                @else
-                    <div class="w-full h-full bg-gray-300 rounded-lg flex items-center justify-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
-                        </svg>
+            <div class="p-4 sm:p-6 rounded-xl transition duration-300 ease-in-out border border-gray-100 mb-4">
+                <div class="flex items-center justify-between space-x-4">
+                    
+                    <!-- Detail Pekerjaan -->
+                    <div class="flex items-center space-x-4 flex-1 min-w-0">
+                        <!-- Logo Perusahaan (Diganti dengan placeholder/mock logo) -->
+                        <div class="size-20 flex-shrink-0">
+                            <img src="{{ auth()->user()->company?->profile_photo_url 
+                            ? asset('storage/' . auth()->user()->company->profile_photo_url) 
+                            : asset('assets/images/default-profile-picture.jpg') }}" alt="User Avatar" class="rounded-full object-cover border-2 border-gray-300">
+                        </div>
+    
+                        <!-- Judul dan Lokasi -->
+                        <div class="flex-1 overflow-hidden">
+                            <p class="text-lg font-semibold truncate">
+                                Posisi: {{ $job->title }}
+                            </p>
+                            <p class="text-sm truncate">
+                                {{ $job->company->company_name }}
+                            </p>
+                            <p class="text-sm truncate">
+                                {{ $job->company->city }}, {{ $job->company->country }} (<span class="font-medium">{{ $job->workMethod->name }}</span>)
+                            </p>
+                        </div>
                     </div>
-                @endif
+                </div>
             </div>
             
-            <div>
-                <p class="text-lg font-bold text-gray-900 leading-tight">Posisi: {{ $job->title }}</p>
-                <p class="text-sm text-gray-600">{{ $company->name }}</p>
-                <p class="text-sm text-gray-500">{{ $job->city }}, {{ $job->country }} ({{ $job->workMethod->name }})</p>
-            </div>
         </div>
 
         @forelse($applications as $application)
             <div class="bg-white p-6 rounded-xl shadow-lg border border-gray-100 flex items-center justify-between mb-4">
                 <div class="flex items-center space-x-4">
-                    <div class="w-12 h-12 flex items-center justify-center rounded-full bg-gray-300 flex-shrink-0">
-                        @if($application->user->profile && $application->user->profile->profile_photo_url)
-                            <img src="{{ asset($application->user->profile->profile_photo_url) }}" alt="{{ $application->first_name }}" class="w-full h-full object-cover rounded-full">
-                        @else
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                            </svg>
-                        @endif
+                    <div class="size-20 flex-shrink-0">
+                        <img src="{{ $application->user->profile->profile_photo_url 
+                        ? asset('storage/' . $application->user->profile->profile_photo_url) 
+                        : asset('assets/images/default-profile-picture.jpg') }}" alt="User Avatar" class="rounded-full object-cover border-2 border-gray-300">
                     </div>
                     
                     <div>

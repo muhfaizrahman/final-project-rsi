@@ -24,8 +24,7 @@
 
             <section class="flex items-center space-x-4">
                 <div class="size-24 flex items-center justify-center">
-                    <img class="object-cover" src="{{ asset('assets/images/default-experience.png') }}" alt="">
-                </div>
+                    <img class="object-cover rounded-full overflow-hidden border-2 border-gray-100" src="{{ $job->company->profile_photo_url ? asset('storage/' . $job->company->profile_photo_url) : asset('assets/images/default-profile-picture.jpg') }}" alt="">                </div>
                 <div class="space-y-1">
                     <h2 class="text-xl font-bold">{{ $job->title }}</h2>
                     <p class="text-sm">{{ $job->company->name }}</p>
@@ -35,36 +34,35 @@
 
             <h3 class="text-lg font-semibold">Informasi Pribadi</h3>
 
+            <div class="flex items-center space-x-4">
+                <div class="size-16 flex-shrink-0">
+                    <img src="{{ auth()->user()->profile?->profile_photo_url 
+                    ? asset('storage/' . auth()->user()->profile->profile_photo_url) 
+                    : asset('assets/images/default-profile-picture.jpg') }}" alt="User Avatar" class="rounded-full object-cover border-2 border-gray-300">
+                </div>
+                <div>
+                    <p class="text-base font-semibold text-gray-900 leading-snug">{{ auth()->user()->profile?->full_name }}</p>
+                </div>
+
+            </div>
+
             <form action="{{ route('submitApplication', $job->id) }}" method="POST" enctype="multipart/form-data" class="space-y-4">
                 @csrf
                 <input type="hidden" name="user_id" value="{{ Auth::id() }}">
                 <input type="hidden" name="job_id" value="{{ $job->id }}">
 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                        <label for="firstName" class="block text-sm font-medium text-gray-700 mb-1">Nama Depan</label>
-                        <input type="text" id="firstName" name="first_name" value="{{ old('first_name') }}" class="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#7E794B]">
-                    </div>
-                    <div>
-                        <label for="lastName" class="block text-sm font-medium text-gray-700 mb-1">Nama Belakang</label>
-                        <input type="text" id="lastName" name="last_name" value="{{ old('last_name') }}"  class="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#7E794B]">
-                    </div>
+                <div>
+                    <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email Aktif</label>
+                    <input type="email" id="email" name="applicant_email" value="{{ auth()->user()->email }}" 
+                        class="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-1 bg-gray-100 text-gray-600" 
+                        readonly>
                 </div>
 
                 <div>
-                    <label for="domicile" class="block text-sm font-medium text-gray-700 mb-1">Domisili Saat Ini</label>
-                    <input type="text" id="domicile" name="domicile" value="{{ old('domicile') }}"  class="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#7E794B]">
-                </div>
-
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                        <label for="phone" class="block text-sm font-medium text-gray-700 mb-1">Nomor Telepon Aktif</label>
-                        <input type="tel" id="phone" name="applicant_phone" value="{{ old('applicant_phone') }}"  class="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#7E794B]">
-                    </div>
-                    <div>
-                        <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email Aktif</label>
-                        <input type="email" id="email" name="applicant_email" value="{{ old('applicant_email') }}"  class="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#7E794B]">
-                    </div>
+                    <label for="phone" class="block text-sm font-medium text-gray-700 mb-1">Nomor Telepon Aktif</label>
+                    <input type="tel" id="phone" name="applicant_phone" value="{{ auth()->user()->profile->phone }}" 
+                        class="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-1 bg-gray-100 text-gray-600" 
+                        readonly>
                 </div>
 
                 <div class="">

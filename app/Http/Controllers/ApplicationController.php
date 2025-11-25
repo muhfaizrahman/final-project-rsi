@@ -19,11 +19,8 @@ class ApplicationController extends Controller
         Application::create([
             'user_id' => $data['user_id'],
             'job_id' => $data['job_id'],
-            'first_name' => $data['first_name'],
-            'last_name' => $data['last_name'],
             'applicant_email' => $data['applicant_email'],
             'applicant_phone' => $data['applicant_phone'],
-            'domicile' => $data['domicile'],
             'cv_url' => $data['cv_url'],
         ]);
 

@@ -23,7 +23,7 @@
                     <div class="relative border {{ $borderClass }} p-4 mb-4 rounded-lg shadow-sm flex items-center justify-between bg-white cursor-pointer">
                             <div class="flex space-x-4 items-center">
                                 <div class="flex items-center justify-center size-24">
-                                    <img class="object-cover" src="{{ asset('assets/images/default-experience.png') }}" alt="">
+                                    <img class="object-cover rounded-full overflow-hidden border-2 border-gray-100" src="{{ $job->company->profile_photo_url ?? asset('assets/images/default-profile-picture.jpg') }}" alt="">
                                 </div>
                                 <div>
                                     <h3 class="font-bold text-lg">{{ $job->title }}</h3>
@@ -71,7 +71,6 @@
 
                     <div class="flex font-bold space-x-4 pt-4">
                         <a href="{{ route('applicationFormPage', $selectedJob->id) }}" class="flex-1 text-center px-4 py-3 bg-[#7E794B] hover:bg-[#6e6a3f] text-white rounded-lg transition duration-150">Apply Now</a>
-                        <a href="{{ route('createOrShowChat', $selectedJob) }}" class="flex-1 text-center px-4 py-3 border border-gray-300 hover:bg-gray-100 text-[#7E794B] rounded-lg transition duration-150 cursor-pointer">Chat</a>
                     </div>
                 </div>
                 @else

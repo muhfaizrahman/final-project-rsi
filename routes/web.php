@@ -36,9 +36,9 @@ Route::middleware(['auth', 'role:pelamar'])->group(function () {
     Route::get('/home', [JobController::class, 'index'])->middleware('verified')->name('homePage');
 
     // Profile Routes
-    Route::get('/profile', [ProfileController::class, 'showProfilePage'])->name('profilePage');
-    Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('editProfilePage');
-    Route::put('/profile/update', [ProfileController::class, 'update'])->name('updateProfile');
+    Route::get('/profile/{user}', [ProfileController::class, 'showProfilePage'])->name('profilePage');
+    Route::get('/profile/{user}/edit', [ProfileController::class, 'edit'])->name('editProfilePage');
+    Route::put('/profile/{user}/update', [ProfileController::class, 'update'])->name('updateProfile');
 
     // Apply Routes
     Route::get('/apply/{job}', [ApplicationController::class, 'showApplicationForm'])->name('applicationFormPage');
@@ -75,4 +75,6 @@ Route::middleware(['auth', 'role:perusahaan'])->group(function () {
     
     Route::get('/jobs/create', [CompanyController::class, 'indexCreate'])->name('createJobPage');
     Route::post('/jobs', [CompanyController::class, 'createJob'])->name('storeJob');
+
+    Route::get('/jobs/{job}/applicants', [CompanyController::class, 'indexApplicants'])->name('companyApplicantsPage');
 });
