@@ -21,9 +21,9 @@
 
             <div class="w-[600px] p-12 flex flex-col justify-center">
                 
-                <h2 class="text-3xl font-bold mb-10 text-black">Sign Up</h2>
+                <h2 class="text-3xl font-bold mb-10 text-black">Sign Up as A Company</h2>
                 {{-- Main Form --}}
-                <form action="{{ route('register') }}" method="POST" class="space-y-6">
+                <form action="{{ route('') }}" method="POST" class="space-y-6">
                     @csrf
                     <div>
                         <label for="email" class="block text-sm font-medium text-black mb-1">Email</label>
@@ -45,17 +45,6 @@
                             class="w-full px-4 py-3 border border-gray-300 rounded-full bg-gray-100 focus:ring-[#7E794B] focus:border-[#7E794B] transition duration-150"
                             required>
                     </div>
-
-                    <div>
-                        <label for="role" class="block text-sm font-medium text-black mb-1">Register as</label>
-                        <select id="role" name="role"
-                            class="w-full px-4 py-3 border border-gray-300 rounded-full bg-gray-100 focus:ring-[#7E794B] focus:border-[#7E794B] transition duration-150"
-                            required>
-                            <option value="" disabled selected>Select role</option>
-                            <option value="pelamar">Pelamar</option>
-                            <option value="perusahaan">Perusahaan</option>
-                        </select>
-                    </div>
                     
                     <div class="flex items-center">
                         <input id="remember-me" name="remember-me" type="checkbox" 
@@ -75,7 +64,7 @@
 
                 <div class="text-center mt-12 text-sm">
                     <span class="text-black font-bold">Already have account? </span>
-                    <a href="{{ route('loginPage') }}" class="text-[#180081] font-bold hover:text-[#120064] hover:underline">Sign In</a>
+                    <a href="{{ route('') }}" class="text-[#180081] font-bold hover:text-[#120064] hover:underline">Sign In</a>
                 </div>
                 
             </div>
