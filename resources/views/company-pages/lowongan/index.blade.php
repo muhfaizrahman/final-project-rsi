@@ -55,16 +55,27 @@
         
                             <!-- Toggle Lowongan (Aktif/Non-aktif) -->
                             <div class="flex items-center">
-                                <label for="toggle-job-1" class="relative inline-flex items-center cursor-pointer">
-                                    <!-- Input Checkbox -->
-                                    <input type="checkbox" value="" id="toggle-job-1" class="sr-only peer" checked onclick="toggleJobStatus(this)">
+                                <form id="toggle-form-{{ $job->id }}" action="{{ route('toggleStatus', $job) }}" method="POST">
+                                    @csrf
+                                    @method('PUT')
                                     
-                                    <!-- Track (Background) -->
-                                    <div class="w-11 h-6 bg-inactive-red peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-red-300 dark:peer-focus:ring-red-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-active-green"></div>
-                                    
-                                    <!-- Anda bisa menambahkan label status di sini jika mau, tapi saya biarkan kosong seperti gambar -->
-                                    <!-- <span class="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300">Aktif</span> -->
-                                </label>
+                                    <!-- Input Hidden untuk mengirim status yang dituju (true/false) -->
+                                    <input type="hidden" name="is_active" value="{{ $job->is_active ? 0 : 1 }}">
+
+                                    <label for="toggle-job-{{ $job->id }}" class="relative inline-flex items-center cursor-pointer">
+                                        <!-- Input Checkbox UI -->
+                                        <!-- Tambahkan status CHECKED berdasarkan $job->is_active -->
+                                        <input type="checkbox" 
+                                            value="1" 
+                                            id="toggle-job-{{ $job->id }}" 
+                                            class="sr-only peer" 
+                                            {{ $job->is_active ? 'checked' : '' }} 
+                                            onchange="document.getElementById('toggle-form-{{ $job->id }}').submit()">
+                                        
+                                        <!-- Track (Background) - Sesuaikan kelas Tailwind untuk warna aktif/non-aktif -->
+                                        <div class="w-11 h-6 bg-red-400 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-green-300 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-green-600"></div>
+                                    </label>
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -77,42 +88,10 @@
     </section>
 
     <script>
-        // toggleJobStatus
         function toggleJobStatus(element) {
             const isChecked = element.checked;
             console.log(`Lowongan diubah status menjadi: ${isChecked ? 'Aktif' : 'Non-aktif'}`);
-            // Di Laravel, Anda akan mengirim permintaan AJAX di sini untuk memperbarui database
         }
-
-        // Logika untuk menampilkan/menyembunyikan sidebar di mobile
-        const sidebar = document.getElementById('sidebar');
-
-        function toggleSidebar() {
-            if (sidebar.classList.contains('-translate-x-full')) {
-                sidebar.classList.remove('-translate-x-full');
-            } else {
-                sidebar.classList.add('-translate-x-full');
-            }
-        }
-
-        // Sembunyikan sidebar overlay jika mengklik di luar sidebar (untuk mobile)
-        document.addEventListener('click', function(event) {
-            const isClickInside = sidebar.contains(event.target) || event.target.closest('.lg\:hidden');
-            
-            if (!isClickInside && window.innerWidth < 1024 && !sidebar.classList.contains('-translate-x-full')) {
-                // Di mobile, jika sidebar terbuka dan klik di luar, tutup sidebar
-                if(event.target.tagName !== 'BUTTON' && event.target.closest('.lg\\:hidden') === null) {
-                     sidebar.classList.add('-translate-x-full');
-                }
-            }
-        });
-        
-        // Atur posisi konten utama agar tidak tertutup sidebar di mobile
-        window.addEventListener('resize', function() {
-            if (window.innerWidth >= 1024) {
-                sidebar.classList.remove('-translate-x-full');
-            }
-        });
     </script>
 </body>
 </html>

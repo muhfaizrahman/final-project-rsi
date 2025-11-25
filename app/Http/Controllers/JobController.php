@@ -38,6 +38,7 @@ class JobController extends Controller
         }
 
         $jobsQuery->join('profile_companies as pc', 'jobs.company_id', '=', 'pc.id');
+        $jobsQuery->where('jobs.is_active', true);
 
         // Terapkan filter kategori
         if ($filterWorkTypeId) {

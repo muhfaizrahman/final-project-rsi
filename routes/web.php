@@ -77,4 +77,6 @@ Route::middleware(['auth', 'role:perusahaan'])->group(function () {
     Route::post('/jobs', [CompanyController::class, 'createJob'])->name('storeJob');
 
     Route::get('/jobs/{job}/applicants', [CompanyController::class, 'indexApplicants'])->name('companyApplicantsPage');
+
+    Route::put('/jobs/{job}/status', [CompanyController::class, 'toggleStatus'])->name('toggleStatus');
 });
