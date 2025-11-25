@@ -14,6 +14,9 @@ class ProfileCompany extends Model
         'company_name',
         'city',
         'country',
+        'about',
+        'profile_photo_url',
+        'background_photo_url',
     ];
 
     public function user() {

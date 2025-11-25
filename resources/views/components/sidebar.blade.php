@@ -8,7 +8,7 @@
     
     <!-- Navigasi Utama -->
     <nav>
-        <a href="{{ route('companyDashboardPage') }}" class="block py-2 px-4 rounded-lg font-medium text-white bg-green-700 shadow-md transition duration-150 mb-2">
+        <a href="{{ route('companyDashboardPage') }}" class="block py-2 px-4 rounded-lg font-medium text-white bg-[#7E794B] shadow-md transition duration-150 mb-2">
             Lowongan
         </a>
     </nav>

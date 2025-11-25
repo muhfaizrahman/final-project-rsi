@@ -8,6 +8,7 @@ use App\Http\Controllers\CommentController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\JobController;
+use App\Http\Controllers\ProfileCompanyController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
@@ -79,4 +80,8 @@ Route::middleware(['auth', 'role:perusahaan'])->group(function () {
     Route::get('/jobs/{job}/applicants', [CompanyController::class, 'indexApplicants'])->name('companyApplicantsPage');
 
     Route::put('/jobs/{job}/status', [CompanyController::class, 'toggleStatus'])->name('toggleStatus');
+
+    Route::get('/company/profile/{user}', [ProfileCompanyController::class, 'showProfilePage'])->name('companyProfilePage');
+    Route::get('/company/profile/{user}/edit', [ProfileCompanyController::class, 'editCompany'])->name('editCompanyProfilePage');
+    Route::put('/company/profile/{user}/update', [ProfileCompanyController::class, 'updateCompany'])->name('updateCompanyProfile');
 });
