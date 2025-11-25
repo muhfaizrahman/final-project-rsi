@@ -20,7 +20,8 @@ class User extends Authenticatable implements MustVerifyEmail
     protected $fillable = [
         'name',
         'email',
-        'password'
+        'password',
+        'role'
     ];
 
     /**
@@ -50,7 +51,7 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasOne(Profile::class);
     }
 
-    public function companyProfile() {
+    public function company() {
         return $this->hasOne(ProfileCompany::class);
     }
 
@@ -60,6 +61,10 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function comments() {
         return $this->hasMany(Comment::class);
+    }
+
+    public function applications() {
+        return $this->hasMany(Application::class);
     }
 
     public function isBookmarked($job): bool {

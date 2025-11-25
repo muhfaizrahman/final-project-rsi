@@ -8,11 +8,8 @@
     
     <!-- Navigasi Utama -->
     <nav>
-        <a href="#" class="block py-2 px-4 rounded-lg font-medium text-white bg-green-700 shadow-md transition duration-150 mb-2">
+        <a href="{{ route('companyDashboardPage') }}" class="block py-2 px-4 rounded-lg font-medium text-white bg-green-700 shadow-md transition duration-150 mb-2">
             Lowongan
-        </a>
-        <a href="#" class="block py-2 px-4 rounded-lg font-medium text-gray-600 hover:bg-gray-100 transition duration-150">
-            Event
         </a>
     </nav>
 </aside>

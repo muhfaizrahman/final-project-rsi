@@ -26,7 +26,7 @@
             </div>
         @endif
 
-        <form action="{{ route('updateProfile') }}" method="POST" enctype="multipart/form-data" class="space-y-8">
+        <form action="{{ route('updateProfile', Auth::user()) }}" method="POST" enctype="multipart/form-data" class="space-y-8">
             @csrf
             @method('PUT')
 

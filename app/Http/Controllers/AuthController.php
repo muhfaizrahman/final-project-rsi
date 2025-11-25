@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Company;
+use App\Models\Profile;
+use App\Models\ProfileCompany;
+use DB;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
@@ -22,24 +25,40 @@ class AuthController extends Controller
             'password' => 'required',
             'role' => 'required|in:pelamar,perusahaan',
         ]);
-
-        $user = User::create([
-            'name' => $request->name ?? 'User',
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-            'role' => $request->role,
-        ]);
-
-        if ($request->role === 'perusahaan') {
-            Company::create([
-                'user_id' => $user->id,
+        try {
+            DB::beginTransaction();
+            
+            $user = User::create([
+                'name' => $request->name ?? 'User',
+                'email' => $request->email,
+                'password' => Hash::make($request->password),
+                'role' => $request->role,
             ]);
+    
+            if ($request->role === 'perusahaan') {
+                ProfileCompany::create([
+                    'user_id' => $user->id,
+                    'company_name' => 'Belum Diatur',
+                    'city' => 'Belum Diatur',
+                    'country' => 'Belum Diatur',
+                ]);
+            } else if ($request->role === 'pelamar') {
+                Profile::create([
+                    'user_id' => $user->id,
+                    'full_name' => 'Default Name',
+                ]);
+            }
+    
+            DB::commit();
+    
+            event(new Registered($user));
+    
+            return redirect()->route('verification.notice')
+                ->with('success', 'Registrasi berhasil! Silakan verifikasi email kamu.');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return redirect()->back()->withInput()->with('error', 'Terjadi kesalahan saat registrasi. Silakan coba lagi.');
         }
-
-        event(new Registered($user));
-
-        return redirect()->route('verification.notice')
-            ->with('success', 'Registrasi berhasil! Silakan verifikasi email kamu.');
     }
 
     // ===== LOGIN =====

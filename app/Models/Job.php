@@ -7,8 +7,21 @@ use Illuminate\Database\Eloquent\Model;
 class Job extends Model
 {
 
+    protected $table = "jobs";
+
+    protected $fillable = [
+        'title',
+        'work_type_id',
+        'work_method_id',
+        'description',
+        'requirements',
+        'industry_id',
+        'is_active',
+        'company_id',
+    ];
+
     public function company() {
-        return $this->belongsTo(Company::class);
+        return $this->belongsTo(ProfileCompany::class);
     }
 
     public function workType() {

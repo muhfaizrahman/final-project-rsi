@@ -7,8 +7,8 @@
         <!-- Tombol Profil Pengguna -->
         <div class="relative">
             <button id="user-avatar-btn" class="focus:outline-none rounded-full" aria-expanded="false" aria-haspopup="true">
-                <img src="{{ auth()->user()->companyProfile?->profile_photo_url 
-                ? asset('storage/' . auth()->user()->companyProfile->profile_photo_url) 
+                <img src="{{ auth()->user()->company?->profile_photo_url 
+                ? asset('storage/' . auth()->user()->company->profile_photo_url) 
                 : asset('assets/images/default-profile-picture.jpg') }}" alt="User Avatar" class="h-10 w-10 rounded-full object-cover border-2 border-gray-300 hover:border-[#7E794B] transition duration-150 cursor-pointer">
             </button>
 
