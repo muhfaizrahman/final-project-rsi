@@ -7,7 +7,9 @@ use App\Models\Job;
 use App\Models\ProfileCompany;
 use App\Models\WorkMethod;
 use App\Models\WorkType;
-use Illuminate\Http\Request; 
+use DB;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth; 
 
 class JobController extends Controller
 {
@@ -31,14 +33,19 @@ class JobController extends Controller
 
         // --- 2. Bangun Query Pekerjaan ---
         $jobsQuery = Job::with(['company', 'workMethod', 'workType', 'industry'])->latest(); 
+        $jobsQuery->join('profile_companies as pc', 'jobs.company_id', '=', 'pc.id');
+        $jobsQuery->where('jobs.is_active', true);
         
+        $userId = Auth::id();
+        $jobsQuery->whereDoesntHave('applications', function ($query) use ($userId) {
+            $query->where('user_id', $userId);
+        });
+
         // Terapkan filter keyword
         if ($keyword) {
             $jobsQuery->where('title', 'like', '%' . $keyword . '%');
         }
 
-        $jobsQuery->join('profile_companies as pc', 'jobs.company_id', '=', 'pc.id');
-        $jobsQuery->where('jobs.is_active', true);
 
         // Terapkan filter kategori
         if ($filterWorkTypeId) {
