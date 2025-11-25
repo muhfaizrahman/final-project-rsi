@@ -51,38 +51,19 @@
                         : asset('assets/images/default-profile-picture.jpg') }}" alt="User Avatar" class="rounded-full object-cover border-2 border-gray-300">
                     </div>
                     
-                    <div>
-                        <p class="text-base font-semibold text-gray-900 leading-snug">{{ $application->first_name }} {{ $application->last_name }}</p>
-                        @if($application->user->profile)
-                            @php
-                                $education = $application->user->profile->educations()->latest()->first();
-                            @endphp
-                            @if($education)
-                                <p class="text-sm text-gray-600 leading-snug">{{ $education->degree }} at {{ $education->institution_name }}</p>
-                            @else
-                                <p class="text-sm text-gray-600 leading-snug">{{ $application->applicant_email }}</p>
-                            @endif
-                        @else
-                            <p class="text-sm text-gray-600 leading-snug">{{ $application->applicant_email }}</p>
-                        @endif
-                        <a href="#" class="text-xs text-green-700 hover:text-green-500 font-medium mt-1 inline-block">Profile Lunaris</a>
+                    <div class="flex flex-col space-y-1">
+                        <p class="text-base font-bold text-gray-900 leading-snug">{{ $application->user->profile?->full_name }}</p>
+                        <p class="text-sm text-gray-600 leading-snug">{{ $application->applicant_email }}</p>
+                        <a href="{{ route('profilePage', $application->user) }}" class="text-xs hover:underline font-medium mt-1 inline-block">Profile Pelamar</a>
                     </div>
                 </div>
 
                 <div class="ml-4 flex-shrink-0">
-                    @if($application->cv_url)
-                        <a href="{{ asset($application->cv_url) }}" target="_blank" class="w-10 h-10 flex items-center justify-center rounded-lg bg-yellow-700/10 hover:bg-yellow-700/20 text-yellow-800 transition duration-150">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" />
-                            </svg>
-                        </a>
-                    @else
-                        <div class="w-10 h-10 flex items-center justify-center rounded-lg bg-gray-200 text-gray-400">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" />
-                            </svg>
-                        </div>
-                    @endif
+                    <a href="{{ asset('storage/' . $application->cv_url) }}" target="_blank" class="w-10 h-10 flex items-center justify-center rounded-lg bg-yellow-700/10 hover:bg-yellow-700/20 text-yellow-800 transition duration-150">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" />
+                        </svg>
+                    </a>
                 </div>
             </div>
         @empty

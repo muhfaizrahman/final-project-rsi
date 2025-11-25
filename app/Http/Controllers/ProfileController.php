@@ -11,16 +11,15 @@ use Illuminate\Http\Request;
 
 class ProfileController extends Controller
 {
-    public function edit() {
-        $user = Auth::user();
+    public function edit(User $user) {
         $profile = $user->profile()->with(['skills', 'educations', 'experiences'])->first();
 
         return view('pages.profile.edit.index', ['profile' => $profile]);
     }
 
-    public function showProfilePage() {
+    public function showProfilePage(User $user) {
         return view('pages.profile.index', [
-            'profileUser' => Auth::user(),
+            'profileUser' => $user,
         ]);
     }
 

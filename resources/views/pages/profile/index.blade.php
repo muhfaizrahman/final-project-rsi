@@ -2,7 +2,9 @@
 <html lang="en">
 @include('components.head')
 <body>
-    @include('components.header')
+    @if (auth()->id() == $profileUser->id)
+        @include('components.header')
+    @endif
     <div class="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8 space-y-8">
 
         @if(session('success'))
@@ -13,15 +15,15 @@
         
         {{-- Background Photo --}}
         <div class="rounded-lg shadow-xl h-48 sm:h-64 relative overflow-hidden">
-            <img src="{{ auth()->user()->profile?->background_photo_url 
-            ? asset('storage/' . auth()->user()->profile->background_photo_url)
+            <img src="{{ $profileUser->profile?->background_photo_url 
+            ? asset('storage/' . $profileUser->profile->background_photo_url)
             : asset('assets/images/default-background.jpg') }}" alt="Header Background" class="w-full h-full object-cover opacity-100">
 
             <div class="absolute top-1/2 transform -translate-y-1/2 left-8 sm:left-16 flex items-center">
                 {{-- Profile Photo --}}
                 <div class="w-28 h-28 sm:w-36 sm:h-36 rounded-full border-4 border-white shadow-lg overflow-hidden">
-                    <img src="{{ auth()->user()->profile?->profile_photo_url 
-                    ? asset('storage/' . auth()->user()->profile->profile_photo_url) 
+                    <img src="{{ $profileUser->profile?->profile_photo_url 
+                    ? asset('storage/' . $profileUser->profile->profile_photo_url) 
                     : asset('assets/images/default-profile-picture.jpg') }}" alt="Profile Photo" class="w-full h-full object-cover">
                 </div>
             </div>
@@ -30,8 +32,8 @@
         <div class="px-4 sm:px-0">
             <div class="flex items-center justify-between mb-8 space-x-3">
                 <div class="flex flex-col">
-                    <h1 class="text-4xl font-bold text-black">{{ auth()->user()->profile?->full_name }}</h1>
-                    <p class="text-lg text-black">{{ auth()->user()->profile?->city }}, {{ auth()->user()->profile?->country }}</p>
+                    <h1 class="text-4xl font-bold text-black">{{ $profileUser->profile?->full_name }}</h1>
+                    <p class="text-lg text-black">{{ $profileUser->profile?->city }}, {{ $profileUser->profile?->country }}</p>
                 </div>
                 @if (auth()->id() == $profileUser->id)
                     <a class="text-white bg-[#7E794B] hover:bg-[#6B6840] px-5 py-2 rounded-full" href="{{ route('editProfilePage', $profileUser) }}">Edit</a>
@@ -47,7 +49,7 @@
                         <div>
                             <h2 class="text-2xl font-bold text-gray-800 mb-4">Short Bio</h2>
                             <p class="text-gray-700 leading-relaxed">
-                                {{ auth()->user()->profile?->biography ?? 'Belum ada bio yang ditambahkan. Silakan tambahkan melalui menu edit profil' }}
+                                {{ $profileUser->profile?->biography ?? 'Belum ada bio yang ditambahkan. Silakan tambahkan melalui menu edit profil' }}
                             </p>
                         </div>
 
@@ -57,7 +59,7 @@
 
                             {{-- Skill Item --}}
                             <div class="flex flex-wrap gap-3">
-                            @forelse (auth()->user()->profile?->skills ?? [] as $skill)
+                            @forelse ($profileUser->profile?->skills ?? [] as $skill)
                                 <span class="bg-gray-100 text-black text-sm font-medium px-3 py-1 rounded-xl shadow-md">{{ $skill->name }}</span>
                             @empty
                                 <span>Belum ada skill yang ditambahkan. Silakan tambahkan melalui menu edit profil</span>
@@ -70,7 +72,7 @@
                     {{-- Experience --}}
                     <div class="bg-white p-6 rounded-lg shadow-md">
                         <h2 class="text-2xl font-bold text-gray-800 mb-6">Experience</h2>
-                        @forelse (auth()->user()->profile?->experiences ?? [] as $experience)
+                        @forelse ($profileUser->profile?->experiences ?? [] as $experience)
                             {{-- Experience Item --}}
                             <div class="flex items-center">
                                 <span class="flex items-center justify-center size-24 mr-4 border-2 border-gray-100 rounded-full overflow-hidden">
@@ -93,7 +95,7 @@
                     {{-- Education --}}
                     <div class="bg-white p-6 rounded-lg shadow-md">
                         <h2 class="text-2xl font-bold text-gray-800 mb-6">Education</h2>
-                        @forelse (auth()->user()->profile?->educations ?? [] as $education)
+                        @forelse ($profileUser->profile?->educations ?? [] as $education)
                             <div class="flex items-center mb-4">
                                 <span class="flex items-center justify-center size-16 mr-4 border-2 border-gray-100 rounded-full overflow-hidden">
                                     <img src="{{ asset('assets/images/default-education.png') }}" class="object-cover" alt="Education Icon">
@@ -122,7 +124,7 @@
                                 </span>
                                 <div class="flex flex-col">
                                     <span class="text-gray-800 font-medium">Email</span>
-                                    <span class="text-gray-800">{{ auth()->user()->email }}</span>
+                                    <span class="text-gray-800">{{ $profileUser->email }}</span>
                                 </div>
                             </div>
                             <div class="flex items-center space-x-3">
@@ -131,7 +133,7 @@
                                 </span>
                                 <div class="flex flex-col">
                                     <span class="text-gray-800 font-medium">Phone</span>
-                                    <span class="text-gray-800">{{ auth()->user()->profile?->phone ?? '' }}</span>
+                                    <span class="text-gray-800">{{ $profileUser->profile?->phone ?? '' }}</span>
                                 </div>
                             </div>
                         </div>

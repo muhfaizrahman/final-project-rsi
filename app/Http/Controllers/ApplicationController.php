@@ -12,8 +12,8 @@ class ApplicationController extends Controller
     public function store(StoreApplicationRequest $request){
         $data = $request->validated();
 
-        if ($request->hasFile('cv')) {
-            $data['cv_url'] = $request->file('cv')->store('cvs', 'public');
+        if ($request->hasFile('cv_url')) {
+            $data['cv_url'] = $request->file('cv_url')->store('cvs', 'public');
         }
 
         Application::create([
