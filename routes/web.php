@@ -73,6 +73,6 @@ Route::middleware(['auth', 'role:pelamar'])->group(function () {
 Route::middleware(['auth', 'role:perusahaan'])->group(function () {
     Route::get('/company/dashboard', [CompanyController::class, 'index'])->name('companyDashboardPage');
     
-    Route::get('/company/create-job', [CompanyController::class, 'indexCreate'])->name('createJobPage');
-
+    Route::get('/jobs/create', [CompanyController::class, 'indexCreate'])->name('createJobPage');
+    Route::post('/jobs', [CompanyController::class, 'createJob'])->name('storeJob');
 });

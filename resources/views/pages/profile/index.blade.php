@@ -45,7 +45,7 @@
                         <div>
                             <h2 class="text-2xl font-bold text-gray-800 mb-4">Short Bio</h2>
                             <p class="text-gray-700 leading-relaxed">
-                                {{ auth()->user()->profile?->biography }}
+                                {{ auth()->user()->profile?->biography ?? 'Belum ada bio yang ditambahkan. Silakan tambahkan melalui menu edit profil' }}
                             </p>
                         </div>
 
@@ -67,7 +67,7 @@
 
                     {{-- Experience --}}
                     <div class="bg-white p-6 rounded-lg shadow-md">
-                        <h2 class="text-2xl font-semibold text-gray-800 mb-6">Experience</h2>
+                        <h2 class="text-2xl font-bold text-gray-800 mb-6">Experience</h2>
                         @forelse (auth()->user()->profile?->experiences ?? [] as $experience)
                             {{-- Experience Item --}}
                             <div class="flex items-center">
@@ -75,7 +75,7 @@
                                     <img src="{{ asset('assets/images/default-experience.png') }}" class="object-cover" alt="Experience Icon">
                                 </span>
                                 <div>
-                                    <h3 class="text-xl font-semibold text-gray-900">{{ $experience->experience_title }} - {{ $experience->organization_name }}</h3>
+                                    <h3 class="text-xl font-bold text-gray-900">{{ $experience->experience_title }} - {{ $experience->organization_name }}</h3>
                                     <p class="text-sm text-gray-500">{{ \Carbon\Carbon::parse($experience->start_date)->year }} - {{ \Carbon\Carbon::parse($experience->end_date)->year }}</p>
                                 </div>
                             </div>
@@ -84,20 +84,20 @@
                             </p>
                             <div class="w-full border border-gray-200 mb-4"></div>
                         @empty
-                            <p>Belum ada pengalaman yang ditambahkan. Silakan tambah di halaman edit profil</p>
+                            <p>Belum ada pengalaman yang ditambahkan. Silakan tambahkan melalui menu edit profil</p>
                         @endforelse
                     </div>
 
                     {{-- Education --}}
                     <div class="bg-white p-6 rounded-lg shadow-md">
-                        <h2 class="text-2xl font-semibold text-gray-800 mb-6">Education</h2>
+                        <h2 class="text-2xl font-bold text-gray-800 mb-6">Education</h2>
                         @forelse (auth()->user()->profile?->educations ?? [] as $education)
                             <div class="flex items-center mb-4">
                                 <span class="flex items-center justify-center size-16 mr-4 border-2 border-gray-100 rounded-full overflow-hidden">
                                     <img src="{{ asset('assets/images/default-education.png') }}" class="object-cover" alt="Education Icon">
                                 </span>
                                 <div>
-                                    <h3 class="text-xl font-semibold text-gray-900">{{ $education->institution_name }}</h3>
+                                    <h3 class="text-xl font-bold text-gray-900">{{ $education->institution_name }}</h3>
                                     <p class="text-sm text-gray-500">{{ \Carbon\Carbon::parse($education->start_date)->year }} - {{ \Carbon\Carbon::parse($education->end_date)->year }}</p>
                                 </div>
                             </div>
@@ -112,7 +112,7 @@
                 {{-- Contact Person --}}
                 <div class="lg:col-span-1 space-y-8">
                     <div class="bg-white p-6 rounded-lg shadow-md sticky top-8">
-                        <h2 class="text-2xl font-semibold text-gray-800 mb-4">Contact</h2>
+                        <h2 class="text-2xl font-bold text-gray-800 mb-4">Contact</h2>
                         <div class="space-y-4">
                             <div class="flex items-center space-x-3">
                                 <span class="size-12 rounded-full border-2 border-gray-100 flex items-center justify-center">

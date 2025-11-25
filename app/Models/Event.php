@@ -15,8 +15,8 @@ class Event extends Model
         'event_datetime' => 'datetime',
     ];
 
-    public function company() {
-        return $this->belongsTo(Company::class);
+    public function companyProfile() {
+        return $this->belongsTo(ProfileCompany::class);
     }
     
     public function registrations() {

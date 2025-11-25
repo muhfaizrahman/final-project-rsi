@@ -9,6 +9,12 @@
         @include('components.header-company')
         
         <main class="flex-1 p-8  main-content">
+             @if(session('success'))
+                <div class="p-4 bg-green-100 text-green-800 rounded-lg">
+                    {{ session('success') }}
+                </div>
+            @endif
+
             <h2 class="text-3xl font-bold text-black mb-4">
                 Manajemen Lowongan
             </h2>
