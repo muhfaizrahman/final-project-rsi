@@ -3,27 +3,26 @@
 @include('components.head')
 <body class="min-h-screen flex items-center justify-center">
 
-    @if (session('success')) 
-        <p>{{ session('success') }}</p>
+    @if (session('loginError')) 
+        <p>{{ session('loginError') }}</p> 
     @endif
-
-    @if ($errors->any()) 
-        <p>{{ $errors->first() }}</p>    
+    @if (session('success')) 
+        <p>{{ session('success') }}</p> 
     @endif
     
     <main class="flex w-full max-w-5xl justify-center items-center space-x-16">
         
         <h1 class="text-3xl font-bold text-black">
-            Find your career. Claim your equality
+            Empower your career. Break the bias
         </h1>
 
         <div class="bg-white shadow-2xl rounded-3xl">
 
             <div class="w-[600px] p-12 flex flex-col justify-center">
                 
-                <h2 class="text-3xl font-bold mb-10 text-black">Sign Up</h2>
+                <h2 class="text-3xl font-bold mb-10 text-black">Sign In as A Company</h2>
                 {{-- Main Form --}}
-                <form action="{{ route('register') }}" method="POST" class="space-y-6">
+                <form action="{{ route('loginCompany') }}" method="POST" class="space-y-6">
                     @csrf
                     <div>
                         <label for="email" class="block text-sm font-medium text-black mb-1">Email</label>
@@ -37,24 +36,11 @@
                         <input type="password" id="password" name="password" placeholder="" 
                             class="w-full px-4 py-3 border border-gray-300 rounded-full bg-gray-100 focus:ring-[#7E794B] focus:border-[#7E794B] transition duration-150"
                             required>
-                    </div>
-                    
-                    <div>
-                        <label for="password_confirmation" class="block text-sm font-medium text-black mb-1">Repeat Password</label>
-                        <input type="password" id="password_confirmation" name="password_confirmation" placeholder="" 
-                            class="w-full px-4 py-3 border border-gray-300 rounded-full bg-gray-100 focus:ring-[#7E794B] focus:border-[#7E794B] transition duration-150"
-                            required>
-                    </div>
-
-                    <div>
-                        <label for="role" class="block text-sm font-medium text-black mb-1">Register as</label>
-                        <select id="role" name="role"
-                            class="w-full px-4 py-3 border border-gray-300 rounded-full bg-gray-100 focus:ring-[#7E794B] focus:border-[#7E794B] transition duration-150"
-                            required>
-                            <option value="" disabled selected>Select role</option>
-                            <option value="pelamar">Pelamar</option>
-                            <option value="perusahaan">Perusahaan</option>
-                        </select>
+                        <div class="flex items-center space-x-2 mt-2">
+                            <span class="text-xs text-black font-bold">Forgot your password?</span>
+                            <a href="#" class="text-xs text-[#180081] font-bold hover:text-[#120064] hover:underline">Click Here</a>
+                            
+                        </div>
                     </div>
                     
                     <div class="flex items-center">
@@ -68,14 +54,14 @@
                     <div>
                         <button type="submit" 
                                 class="w-full flex justify-center py-3 px-4 border border-transparent rounded-full shadow-sm text-lg font-bold text-white bg-[#7E794B] hover:bg-[#6B6840] hover:bg-opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#6B6840] transition duration-150 cursor-pointer">
-                            Sign Up
+                            Sign In
                         </button>
                     </div>
                 </form>
 
                 <div class="text-center mt-12 text-sm">
-                    <span class="text-black font-bold">Already have account? </span>
-                    <a href="{{ route('loginPage') }}" class="text-[#180081] font-bold hover:text-[#120064] hover:underline">Sign In</a>
+                    <span class="text-black font-bold">Don't have account? </span>
+                    <a href="{{ route('registerCompanyPage') }}" class="text-[#180081] font-bold hover:text-[#120064] hover:underline">Sign Up</a>
                 </div>
                 
             </div>

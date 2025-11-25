@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Company;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
@@ -19,21 +20,29 @@ class AuthController extends Controller
         $request->validate([
             'email' => 'required|email:dns|unique:users,email',
             'password' => 'required',
+            'role' => 'required|in:pelamar,perusahaan',
         ]);
 
         $user = User::create([
-            'name' => 'User',
+            'name' => $request->name ?? 'User',
             'email' => $request->email,
             'password' => Hash::make($request->password),
+            'role' => $request->role,
         ]);
 
-        // Kirim email verifikasi
+        if ($request->role === 'perusahaan') {
+            Company::create([
+                'user_id' => $user->id,
+            ]);
+        }
+
         event(new Registered($user));
 
-        // Redirect ke halaman verifikasi
-        return redirect()->route('verification.notice')->with('success', 'Registrasi berhasil! Silakan verifikasi email kamu.');
+        return redirect()->route('verification.notice')
+            ->with('success', 'Registrasi berhasil! Silakan verifikasi email kamu.');
     }
 
+    // ===== LOGIN =====
     public function showLoginForm() {
         return view('pages.login.index');
     }
@@ -45,16 +54,29 @@ class AuthController extends Controller
             $request->session()->regenerate();
             $user = Auth::user();
 
-            // Cek apakah email sudah terverifikasi
             if (!$user->hasVerifiedEmail()) {
                 Auth::logout();
-                return back()->with('error', 'Email belum terverifikasi. Silakan periksa email kamu.');
+                return back()->with('error', 'Email belum terverifikasi.');
             }
 
-            return redirect()->route('homePage');
+            // Redirect sesuai role masing-masing
+            return $this->redirectByRole($user);
         }
 
         return back()->with('loginError', 'Login gagal.');
+    }
+
+    private function redirectByRole($user)
+    {
+        if ($user->role === 'pelamar') {
+            return redirect()->route('homePage');
+        }
+
+        if ($user->role === 'perusahaan') {
+            return redirect()->route('companyDashboardPage');
+        }
+
+        return redirect()->route('homePage'); // fallback
     }
 
     public function logout(Request $request) {

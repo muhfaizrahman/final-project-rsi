@@ -3,7 +3,7 @@
 @include('components.head')
 <body>
     @include('components.header')
-    <div class="max-w-6xl mx-auto py-8 px-4 sm:px-6 lg:px-8 space-y-8">
+    <div class="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8 space-y-8">
 
         @if(session('success'))
             <div class="p-4 bg-green-100 text-green-800 rounded-lg">
@@ -28,7 +28,7 @@
         </div>
 
         <div class="px-4 sm:px-0">
-            <div class="flex items-center mb-8 space-x-3">
+            <div class="flex items-center justify-between mb-8 space-x-3">
                 <div class="flex flex-col">
                     <h1 class="text-4xl font-bold text-black">{{ auth()->user()->profile?->full_name }}</h1>
                     <p class="text-lg text-black">{{ auth()->user()->profile?->city }}, {{ auth()->user()->profile?->country }}</p>
@@ -55,7 +55,7 @@
 
                             {{-- Skill Item --}}
                             <div class="flex flex-wrap gap-3">
-                            @forelse (auth()->user()->profile?->skills as $skill)
+                            @forelse (auth()->user()->profile?->skills ?? [] as $skill)
                                 <span class="bg-gray-100 text-black text-sm font-medium px-3 py-1 rounded-xl shadow-md">{{ $skill->name }}</span>
                             @empty
                                 <span>Belum ada skill yang ditambahkan. Silakan tambahkan melalui menu edit profil</span>
@@ -68,7 +68,7 @@
                     {{-- Experience --}}
                     <div class="bg-white p-6 rounded-lg shadow-md">
                         <h2 class="text-2xl font-semibold text-gray-800 mb-6">Experience</h2>
-                        @forelse (auth()->user()->profile?->experiences as $experience)
+                        @forelse (auth()->user()->profile?->experiences ?? [] as $experience)
                             {{-- Experience Item --}}
                             <div class="flex items-center">
                                 <span class="flex items-center justify-center size-24 mr-4 border-2 border-gray-100 rounded-full overflow-hidden">
@@ -91,7 +91,7 @@
                     {{-- Education --}}
                     <div class="bg-white p-6 rounded-lg shadow-md">
                         <h2 class="text-2xl font-semibold text-gray-800 mb-6">Education</h2>
-                        @forelse (auth()->user()->profile?->educations as $education)
+                        @forelse (auth()->user()->profile?->educations ?? [] as $education)
                             <div class="flex items-center mb-4">
                                 <span class="flex items-center justify-center size-16 mr-4 border-2 border-gray-100 rounded-full overflow-hidden">
                                     <img src="{{ asset('assets/images/default-education.png') }}" class="object-cover" alt="Education Icon">
