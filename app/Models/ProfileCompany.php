@@ -27,5 +27,7 @@ class ProfileCompany extends Model
         return $this->hasMany(Job::class);
     }
 
-
+    public function events() {
+        return $this->hasMany(Event::class);
+    }
 }
