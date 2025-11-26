@@ -22,7 +22,7 @@
                 
                 <div class="text-white space-y-2">
                     <h1 class="text-4xl font-extrabold tracking-wide">{{ $event->title }}</h1>
-                    <p class="text-lg text-gray-200">by {{ $event->company->name }}</p>
+                    <p class="text-lg text-gray-200">by {{ $event->company->company_name }}</p>
                 </div>
             </div>
             
