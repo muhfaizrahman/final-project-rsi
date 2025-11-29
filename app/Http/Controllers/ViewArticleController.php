@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Article;
 use Illuminate\Http\Request;
+use App\Models\Article;
 
-class ArticleController extends Controller
+
+class ViewArticleController extends Controller
 {
     public function index()
     {

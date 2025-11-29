@@ -11,7 +11,7 @@ use DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth; 
 
-class JobController extends Controller
+class JobSearchAndFilterController extends Controller
 {
     public function index(Request $request) 
     {

@@ -3,14 +3,18 @@
 use App\Http\Controllers\ApplyJobController;
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\BookmarkController;
+use App\Http\Controllers\CommentArticleController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\JobController;
+use App\Http\Controllers\JobSearchAndFilterController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\LogoutController;
 use App\Http\Controllers\ProfileCompanyController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\UpdateProfileApplicantController;
+use App\Http\Controllers\ViewArticle;
+use App\Http\Controllers\ViewArticleController;
 use Illuminate\Support\Facades\Route;
 
 // Guest Routes
@@ -44,7 +48,7 @@ Route::middleware(['auth'])->group(callback: function () {
 
 // Applicant Routes
 Route::middleware(['auth', 'role:pelamar'])->group(function () {
-    Route::get('/home', [JobController::class, 'index'])->middleware('verified')->name('homePage');
+    Route::get('/home', [JobSearchAndFilterController::class, 'index'])->middleware('verified')->name('homePage');
 
     // Use case update profile for applicant
     Route::get('/profile/{user}/edit', [UpdateProfileApplicantController::class, 'edit'])->name('editProfilePage');
@@ -54,16 +58,18 @@ Route::middleware(['auth', 'role:pelamar'])->group(function () {
     Route::get('/apply/{job}', [ApplyJobController::class, 'index'])->name('applicationFormPage');
     Route::post('/apply/{job}', [ApplyJobController::class, 'store'])->name('submitApplication');
 
-    // Bookmark Routes
+    // Use case bookmark a job
     Route::get('/bookmark', [BookmarkController::class, 'index'])->name('showBookmarkPage');
     Route::post('/job/{job}/toggle', [BookmarkController::class, 'toggle'])->name('toggleBookmark');
     
-    // Article Routes
-    Route::get('/artikel', [ArticleController::class, 'index'])->name('articlePage');
-    Route::get('/artikel/{article:slug}', [ArticleController::class, 'show'])->name('showArticle');
-    Route::post('/artikel/{article:slug}/comments', [CommentController::class, 'store'])->name('storeComment');
-    Route::put('/comments/{comment}', [CommentController::class, 'update'])->name('updateComment');
-    Route::delete('/comments/{comment}', [CommentController::class, 'delete'])->name('deleteComment');
+    // Use case for view an article
+    Route::get('/artikel', [ViewArticleController::class, 'index'])->name('articlePage');
+    Route::get('/artikel/{article:slug}', [ViewArticleController::class, 'show'])->name('showArticle');
+
+    // Use case for comment on an article
+    Route::post('/artikel/{article:slug}/comments', [CommentArticleController::class, 'store'])->name('storeComment');
+    Route::put('/comments/{comment}', [CommentArticleController::class, 'update'])->name('updateComment');
+    Route::delete('/comments/{comment}', [CommentArticleController::class, 'delete'])->name('deleteComment');
 });
 
 // Company Routes
