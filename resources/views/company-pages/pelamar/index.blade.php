@@ -46,9 +46,9 @@
             <div class="bg-white p-6 rounded-xl shadow-lg border border-gray-100 flex items-center justify-between mb-4">
                 <div class="flex items-center space-x-4">
                     <div class="size-20 flex-shrink-0">
-                        <img src="{{ $application->user->profile->profile_photo_url 
-                        ? asset('storage/' . $application->user->profile->profile_photo_url) 
-                        : asset('assets/images/default-profile-picture.jpg') }}" alt="User Avatar" class="rounded-full object-cover border-2 border-gray-300">
+                        <img src="{{ $application->user->profile?->profile_photo_url 
+                        ? asset('storage/' . $application->user->profile?->profile_photo_url) 
+                        : asset('assets/images/default-profile-picture.jpg') }}" alt="User Avatar" class="w-full h-full object-cover rounded-full overflow-hidden border-2 border-gray-300">
                     </div>
                     
                     <div class="flex flex-col space-y-1">
@@ -59,7 +59,7 @@
                 </div>
 
                 <div class="ml-4 flex-shrink-0">
-                    <a href="{{ asset('storage/' . $application->cv_url) }}" target="_blank" class="w-10 h-10 flex items-center justify-center rounded-lg bg-yellow-700/10 hover:bg-yellow-700/20 text-yellow-800 transition duration-150">
+                    <a href="{{ route('viewApplicantCV', $application) }}" target="_blank" class="w-10 h-10 flex items-center justify-center rounded-lg bg-yellow-700/10 hover:bg-yellow-700/20 text-yellow-800 transition duration-150">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" />
                         </svg>

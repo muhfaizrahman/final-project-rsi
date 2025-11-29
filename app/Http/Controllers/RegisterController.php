@@ -2,20 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Company;
 use App\Models\Profile;
 use App\Models\ProfileCompany;
-use DB;
-use Illuminate\Http\Request;
 use App\Models\User;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Auth;
+use DB;
+use Exception;
+use Hash;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Events\Verified;
+use Illuminate\Http\Request;
 
-class AuthController extends Controller
+class RegisterController extends Controller
 {
-    public function showRegistrationForm() {
+    public function index() {
         return view('pages.register.index');
     }
 
@@ -55,54 +54,10 @@ class AuthController extends Controller
     
             return redirect()->route('verification.notice')
                 ->with('success', 'Registrasi berhasil! Silakan verifikasi email kamu.');
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             DB::rollBack();
             return redirect()->back()->withInput()->with('error', 'Terjadi kesalahan saat registrasi. Silakan coba lagi.');
         }
-    }
-
-    // ===== LOGIN =====
-    public function showLoginForm() {
-        return view('pages.login.index');
-    }
-
-    public function login(Request $request) {
-        $credentials = $request->only('email', 'password');
-
-        if (Auth::attempt($credentials)) {
-            $request->session()->regenerate();
-            $user = Auth::user();
-
-            if (!$user->hasVerifiedEmail()) {
-                Auth::logout();
-                return back()->with('error', 'Email belum terverifikasi.');
-            }
-
-            // Redirect sesuai role masing-masing
-            return $this->redirectByRole($user);
-        }
-
-        return back()->with('loginError', 'Login gagal.');
-    }
-
-    private function redirectByRole($user)
-    {
-        if ($user->role === 'pelamar') {
-            return redirect()->route('homePage');
-        }
-
-        if ($user->role === 'perusahaan') {
-            return redirect()->route('companyDashboardPage');
-        }
-
-        return redirect()->route('homePage'); // fallback
-    }
-
-    public function logout(Request $request) {
-        Auth::logout();
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
-        return redirect('/login');
     }
 
     public function showVerificationNotice() {

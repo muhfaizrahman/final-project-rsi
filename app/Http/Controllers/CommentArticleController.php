@@ -7,7 +7,7 @@ use App\Models\Comment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class CommentController extends Controller
+class CommentArticleController extends Controller
 {
     public function store(Request $request, Article $article) {
         $request->validate(['content' => 'required|string|max:500']);

@@ -23,7 +23,10 @@
                     <div class="relative border {{ $borderClass }} p-4 mb-4 rounded-lg shadow-sm flex items-center justify-between bg-white cursor-pointer">
                             <div class="flex space-x-4 items-center">
                                 <div class="flex items-center justify-center size-24">
-                                    <img class="object-cover rounded-full overflow-hidden border-2 border-gray-100" src="{{ $job->company->profile_photo_url ?? asset('assets/images/default-profile-picture.jpg') }}" alt="">
+                                    <img class="object-cover rounded-full overflow-hidden border-2 border-gray-100" 
+                                        src="{{ $job->company?->profile_photo_url 
+                                        ? asset('storage/' . $job->company->profile_photo_url) 
+                                        : asset('assets/images/default-profile-picture.jpg') }}" alt="">
                                 </div>
                                 <div>
                                     <h3 class="font-bold text-lg">{{ $job->title }}</h3>

@@ -2,25 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
 use App\Http\Requests\UpdateProfileRequest;
 use App\Models\User;
-use Auth;
 use DB;
-use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
-class ProfileController extends Controller
+class UpdateProfileApplicantController extends Controller
 {
     public function edit(User $user) {
         $profile = $user->profile()->with(['skills', 'educations', 'experiences'])->first();
 
         return view('pages.profile.edit.index', ['profile' => $profile]);
-    }
-
-    public function showProfilePage(User $user) {
-        return view('pages.profile.index', [
-            'profileUser' => $user,
-        ]);
     }
 
     public function update(UpdateProfileRequest $request, User $user) {
