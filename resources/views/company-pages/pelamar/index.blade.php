@@ -46,9 +46,9 @@
             <div class="bg-white p-6 rounded-xl shadow-lg border border-gray-100 flex items-center justify-between mb-4">
                 <div class="flex items-center space-x-4">
                     <div class="size-20 flex-shrink-0">
-                        <img src="{{ $application->user->profile->profile_photo_url 
-                        ? asset('storage/' . $application->user->profile->profile_photo_url) 
-                        : asset('assets/images/default-profile-picture.jpg') }}" alt="User Avatar" class="rounded-full object-cover border-2 border-gray-300">
+                        <img src="{{ $application->user->profile?->profile_photo_url 
+                        ? asset('storage/' . $application->user->profile?->profile_photo_url) 
+                        : asset('assets/images/default-profile-picture.jpg') }}" alt="User Avatar" class="w-full h-full object-cover rounded-full overflow-hidden border-2 border-gray-300">
                     </div>
                     
                     <div class="flex flex-col space-y-1">

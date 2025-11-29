@@ -8,32 +8,38 @@ use App\Http\Controllers\CommentController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\JobController;
+use App\Http\Controllers\LoginController;
+use App\Http\Controllers\LogoutController;
 use App\Http\Controllers\ProfileCompanyController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\RegisterController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 
+// Guest Routes
 Route::middleware(['guest'])->group(function () {
-    // Applicant Routes
-    Route::get('/register', [AuthController::class, 'showRegistrationForm'])->name('registerPage');
-    Route::post('/register', [AuthController::class, 'register'])->name('register');
-    Route::get('/login', [AuthController::class, 'showLoginForm'])->name('loginPage');
-    Route::post('/login', [AuthController::class, 'login'])->name('login');
+    Route::get('/register', [RegisterController::class, 'index'])->name('registerPage');
+    Route::post('/register', [RegisterController::class, 'register'])->name('register');
+    Route::get('/login', [LoginController::class, 'index'])->name('loginPage');
+    Route::post('/login', [LoginController::class, 'login'])->name('login');
     
     Route::get('/', function () {
         return redirect('/login');
     });
 });
 
-Route::get('/email/verify', [AuthController::class, 'showVerificationNotice'])->name('verification.notice');
-Route::get('/email/verify/{id}/{hash}', [AuthController::class, 'verifyEmail'])->middleware(['signed'])->name('verification.verify');
-Route::post('/email/verification-notification', [AuthController::class, 'resendVerificationEmail'])->middleware(['throttle:6,1'])->name('verification.send');
+// Email Verification Routes
+Route::get('/email/verify', [RegisterController::class, 'showVerificationNotice'])->name('verification.notice');
+Route::get('/email/verify/{id}/{hash}', [RegisterController::class, 'verifyEmail'])->middleware(['signed'])->name('verification.verify');
+Route::post('/email/verification-notification', [RegisterController::class, 'resendVerificationEmail'])->middleware(['throttle:6,1'])->name('verification.send');
 
-Route::middleware(['auth'])->group(function () {
-    Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+// Authenticated Routes
+Route::middleware(['auth'])->group(callback: function () {
+    Route::post('/logout', [LogoutController::class, 'logout'])->name('logout');
     Route::get('/profile/{user}', [ProfileController::class, 'showProfilePage'])->name('profilePage');
 });
 
+// Applicant Routes
 Route::middleware(['auth', 'role:pelamar'])->group(function () {
     Route::get('/home', [JobController::class, 'index'])->middleware('verified')->name('homePage');
 
@@ -71,6 +77,7 @@ Route::middleware(['auth', 'role:pelamar'])->group(function () {
     Route::delete('/comments/{comment}', [CommentController::class, 'delete'])->name('deleteComment');
 });
 
+// Company Routes
 Route::middleware(['auth', 'role:perusahaan'])->group(function () {
     Route::get('/company/dashboard', [CompanyController::class, 'index'])->name('companyDashboardPage');
     
