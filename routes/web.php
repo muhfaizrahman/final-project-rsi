@@ -1,8 +1,10 @@
 <?php
 
+use App\Http\Controllers\AddApplicationController;
 use App\Http\Controllers\ApplyJobController;
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\BookmarkController;
+use App\Http\Controllers\ChangeApplicationVisibilityController;
 use App\Http\Controllers\CommentArticleController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\CompanyController;
@@ -13,6 +15,9 @@ use App\Http\Controllers\LogoutController;
 use App\Http\Controllers\ProfileCompanyController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\UpdateProfileApplicantController;
+use App\Http\Controllers\UpdateProfileCompanyController;
+use App\Http\Controllers\ViewApplicantCVController;
+use App\Http\Controllers\ViewApplicantProfileController;
 use App\Http\Controllers\ViewArticle;
 use App\Http\Controllers\ViewArticleController;
 use Illuminate\Support\Facades\Route;
@@ -42,8 +47,8 @@ Route::middleware(['auth'])->group(callback: function () {
     // Use case logout
     Route::post('/logout', [LogoutController::class, 'logout'])->name('logout');
     
-    // Use case update profile for applicant 
-    Route::get('/profile/{user}', [UpdateProfileApplicantController::class, 'index'])->name('profilePage');
+    // Use case view applicant profile
+    Route::get('/profile/{user}', [ViewApplicantProfileController::class, 'index'])->name('profilePage');
 });
 
 // Applicant Routes
@@ -76,14 +81,20 @@ Route::middleware(['auth', 'role:pelamar'])->group(function () {
 Route::middleware(['auth', 'role:perusahaan'])->group(function () {
     Route::get('/company/dashboard', [CompanyController::class, 'index'])->name('companyDashboardPage');
     
-    Route::get('/jobs/create', [CompanyController::class, 'indexCreate'])->name('createJobPage');
-    Route::post('/jobs', [CompanyController::class, 'createJob'])->name('storeJob');
+    // Use case add a job application
+    Route::get('/jobs/create', [AddApplicationController::class, 'indexCreate'])->name('createJobPage');
+    Route::post('/jobs', [AddApplicationController::class, 'createJob'])->name('storeJob');
 
+    // View applicants on a job
     Route::get('/jobs/{job}/applicants', [CompanyController::class, 'indexApplicants'])->name('companyApplicantsPage');
 
-    Route::put('/jobs/{job}/status', [CompanyController::class, 'toggleStatus'])->name('toggleStatus');
+    // View applicant CV
+    Route::get('/application/{application}/cv', [ViewApplicantCVController::class, 'index'])->name('viewApplicantCV');
 
-    Route::get('/company/profile/{user}', [ProfileCompanyController::class, 'showProfilePage'])->name('companyProfilePage');
-    Route::get('/company/profile/{user}/edit', [ProfileCompanyController::class, 'editCompany'])->name('editCompanyProfilePage');
-    Route::put('/company/profile/{user}/update', [ProfileCompanyController::class, 'updateCompany'])->name('updateCompanyProfile');
+    // Use case change job application visibility
+    Route::put('/jobs/{job}/status', [ChangeApplicationVisibilityController::class, 'toggleStatus'])->name('toggleStatus');
+
+    Route::get('/company/profile/{user}', [UpdateProfileCompanyController::class, 'index'])->name('companyProfilePage');
+    Route::get('/company/profile/{user}/edit', [UpdateProfileCompanyController::class, 'editCompany'])->name('editCompanyProfilePage');
+    Route::put('/company/profile/{user}/update', [UpdateProfileCompanyController::class, 'updateCompany'])->name('updateCompanyProfile');
 });

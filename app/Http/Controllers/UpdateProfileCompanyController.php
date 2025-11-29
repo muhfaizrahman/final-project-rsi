@@ -2,15 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
 use App\Models\User;
 use Auth;
 use DB;
-use Illuminate\Http\Request;
 use Storage;
 
-class ProfileCompanyController extends Controller
+class UpdateProfileCompanyController extends Controller
 {
-    public function showProfilePage(User $user) {
+    public function index(User $user) {
         $viewer = Auth::user();
         $user->load('company'); 
         

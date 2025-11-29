@@ -16,12 +16,6 @@ class UpdateProfileApplicantController extends Controller
         return view('pages.profile.edit.index', ['profile' => $profile]);
     }
 
-    public function index(User $user) {
-        return view('pages.profile.index', [
-            'profileUser' => $user,
-        ]);
-    }
-
     public function update(UpdateProfileRequest $request, User $user) {
         $user = Auth::user();
         if (Auth::id() !== $user->id) {
