@@ -2,13 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
 use App\Http\Requests\StoreApplicationRequest;
 use App\Models\Application;
 use App\Models\Job;
-use Illuminate\Http\Request;
 
-class ApplicationController extends Controller
+class ApplyJobController extends Controller
 {
+    public function index(Job $job) {
+        return view('pages.apply.index', ['job' => $job]);
+    }
+
     public function store(StoreApplicationRequest $request){
         $data = $request->validated();
 
@@ -25,10 +29,6 @@ class ApplicationController extends Controller
         ]);
 
         return redirect()->route('homePage')->with('success', 'Lamaran berhasil dikirim. Terima kasih telah melamar!');
-    }
-
-    public function showApplicationForm(Job $job) {
-        return view('pages.apply.index', ['job' => $job]);
     }
 
 }
