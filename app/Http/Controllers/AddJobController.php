@@ -9,7 +9,7 @@ use App\Models\WorkType;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class AddApplicationController extends Controller
+class AddJobController extends Controller
 {
     public function indexCreate() {
         $workMethods = WorkMethod::all();
