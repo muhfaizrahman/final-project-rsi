@@ -1,24 +1,19 @@
 <?php
 
-use App\Http\Controllers\AddApplicationController;
+use App\Http\Controllers\AddJobController;
 use App\Http\Controllers\ApplyJobController;
-use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\BookmarkController;
 use App\Http\Controllers\ChangeApplicationVisibilityController;
 use App\Http\Controllers\CommentArticleController;
-use App\Http\Controllers\CommentController;
 use App\Http\Controllers\CompanyController;
-use App\Http\Controllers\JobController;
 use App\Http\Controllers\JobSearchAndFilterController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\LogoutController;
-use App\Http\Controllers\ProfileCompanyController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\UpdateProfileApplicantController;
 use App\Http\Controllers\UpdateProfileCompanyController;
 use App\Http\Controllers\ViewApplicantCVController;
 use App\Http\Controllers\ViewApplicantProfileController;
-use App\Http\Controllers\ViewArticle;
 use App\Http\Controllers\ViewArticleController;
 use Illuminate\Support\Facades\Route;
 
@@ -82,8 +77,8 @@ Route::middleware(['auth', 'role:perusahaan'])->group(function () {
     Route::get('/company/dashboard', [CompanyController::class, 'index'])->name('companyDashboardPage');
     
     // Use case add a job application
-    Route::get('/jobs/create', [AddApplicationController::class, 'indexCreate'])->name('createJobPage');
-    Route::post('/jobs', [AddApplicationController::class, 'createJob'])->name('storeJob');
+    Route::get('/jobs/create', [AddJobController::class, 'indexCreate'])->name('createJobPage');
+    Route::post('/jobs', [AddJobController::class, 'createJob'])->name('storeJob');
 
     // View applicants on a job
     Route::get('/jobs/{job}/applicants', [CompanyController::class, 'indexApplicants'])->name('companyApplicantsPage');
