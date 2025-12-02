@@ -61,15 +61,6 @@ Route::middleware(['auth', 'role:pelamar'])->group(function () {
     // Use case bookmark a job
     Route::get('/bookmark', [BookmarkController::class, 'index'])->name('showBookmarkPage');
     Route::post('/job/{job}/toggle', [BookmarkController::class, 'toggle'])->name('toggleBookmark');
-    
-    // Use case for view an article
-    Route::get('/artikel', [ViewArticleController::class, 'index'])->name('articlePage');
-    Route::get('/artikel/{article:slug}', [ViewArticleController::class, 'show'])->name('showArticle');
-
-    // Use case for comment on an article
-    Route::post('/artikel/{article:slug}/comments', [CommentArticleController::class, 'store'])->name('storeComment');
-    Route::put('/comments/{comment}', [CommentArticleController::class, 'update'])->name('updateComment');
-    Route::delete('/comments/{comment}', [CommentArticleController::class, 'delete'])->name('deleteComment');
 });
 
 // Company Routes
@@ -89,6 +80,7 @@ Route::middleware(['auth', 'role:perusahaan'])->group(function () {
     // Use case change job application visibility
     Route::put('/jobs/{job}/status', [ChangeApplicationVisibilityController::class, 'toggleStatus'])->name('toggleStatus');
 
+    // Use case for company profile update
     Route::get('/company/profile/{user}', [UpdateProfileCompanyController::class, 'index'])->name('companyProfilePage');
     Route::get('/company/profile/{user}/edit', [UpdateProfileCompanyController::class, 'editCompany'])->name('editCompanyProfilePage');
     Route::put('/company/profile/{user}/update', [UpdateProfileCompanyController::class, 'updateCompany'])->name('updateCompanyProfile');
