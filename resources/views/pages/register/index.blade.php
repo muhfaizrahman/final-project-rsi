@@ -56,13 +56,7 @@
                             <option value="perusahaan">Perusahaan</option>
                         </select>
                     </div>
-                    
-                    <div class="flex items-center">
-                        <input id="remember-me" name="remember-me" type="checkbox" 
-                            class="h-4 w-4 text-[#7E794B] border-gray-300 rounded focus:ring-[#7E794B]">
-                        <label for="remember-me" class="ml-2 block text-sm text-black font-bold">Remember Me</label>
-                    </div>
-                    
+                
                     <div class="py-2"></div>
                     
                     <div>
