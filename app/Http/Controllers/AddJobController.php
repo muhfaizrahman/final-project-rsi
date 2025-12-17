@@ -36,7 +36,6 @@ class AddJobController extends Controller
         $company = Auth::user()->company;
 
         if (!$company) {
-            // Handle jika user tidak memiliki profil perusahaan
             return redirect()
                 ->back()
                 ->withInput()
@@ -44,22 +43,13 @@ class AddJobController extends Controller
         }
 
         // 2. LENGKAPI DATA SEBELUM DISIMPAN
-        
-        // company_id: ID perusahaan user yang sedang login
         $validatedData['company_id'] = Auth::user()->company->id; 
-        
-        // city & country: Diambil dari company (Asumsi relasi company ada kolom city dan country)
         $validatedData['city'] = $company->city ?? 'Belum Diatur'; 
         $validatedData['country'] = $company->country ?? 'Belum Diatur';
-        
-        // is_active: Default ke true saat pembuatan (sesuai permintaan)
         $validatedData['is_active'] = true;
 
         try {
-            // 3. SIMPAN DATA KE DATABASE
             $job = Job::create($validatedData);
-
-            // 4. KEMBALIKAN RESPONS (REDIRECT)
             return redirect()
                 ->route('companyDashboardPage') 
                 ->with('success', 'Lowongan pekerjaan "' . $job->title . '" berhasil dibuat!');
